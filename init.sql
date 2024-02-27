@@ -55,7 +55,7 @@ cpf	      varchar(11) UNIQUE ,
 data_nascimento date NOT NULL,
 email	      varchar(50) UNIQUE ,
 telefone      varchar(11) unique,
-valor float ,
+-- valor float ,
  CONSTRAINT email_unico UNIQUE (email),
 CONSTRAINT telefone_unico UNIQUE (telefone),
 CONSTRAINT cpf_unico UNIQUE (cpf)
