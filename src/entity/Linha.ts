@@ -25,9 +25,9 @@ export class Linha {
 	@Column("float", { nullable: false })
 	distancia_km: number;
 
-	@OneToMany(() => Passagem, (passagem: Passagem) => passagem.id)
+	@OneToMany(() => Passagem, (passagem: Passagem) => passagem.linha_id)
 	passagem: Passagem[];
 
-	@OneToMany(() => Onibus, (onibus: Onibus) => onibus.id)
+	@OneToMany(() => Onibus, (onibus: Onibus) => onibus.linha_id)
 	onibus_id: Onibus[];
 }

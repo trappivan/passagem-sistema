@@ -7,7 +7,7 @@ export class Passagem {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@ManyToOne(() => Linha, (linha: Linha) => linha.id)
+	@ManyToOne(() => Linha, (linha: Linha) => linha.passagem)
 	linha_id: Linha;
 
 	@ManyToOne(() => Passageiro, (passageiro) => passageiro.passagens)

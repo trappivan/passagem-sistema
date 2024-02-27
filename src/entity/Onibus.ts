@@ -42,6 +42,6 @@ export class Onibus {
 	@Column()
 	semi_leitos_valor: number;
 
-	@ManyToOne(() => Linha, (linha: Linha) => linha.id)
+	@ManyToOne(() => Linha, (linha: Linha) => linha.onibus_id)
 	linha_id: Linha;
 }
