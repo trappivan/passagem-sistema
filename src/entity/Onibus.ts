@@ -15,29 +15,53 @@ export class Onibus {
 	@Column()
 	assentos_total: number;
 
-	@Column("simple-array")
-	poltronas_total: number;
+	@Column("int", {
+		array: true,
+		default: [],
+		nullable: true,
+	})
+	poltronas_total: number[];
 
-	@Column("simple-array")
-	poltronas_disponiveis: number;
+	@Column("int", {
+		array: true,
+		default: [],
+		nullable: true,
+	})
+	poltronas_disponiveis: number[];
 
 	@Column()
 	poltronas_valor: number;
 
-	@Column("simple-array")
-	leitos_total: number;
+	@Column("int", {
+		array: true,
+		default: [],
+		nullable: true,
+	})
+	leitos_total: number[];
 
-	@Column("simple-array")
-	leitos_disponiveis: number;
+	@Column("int", {
+		array: true,
+		default: [],
+		nullable: true,
+	})
+	leitos_disponiveis: number[];
 
 	@Column()
 	leitos_valor: number;
 
-	@Column("simple-array")
-	semi_leitos_total: number;
+	@Column("int", {
+		array: true,
+		default: [],
+		nullable: true,
+	})
+	semi_leitos_total: number[];
 
-	@Column("simple-array")
-	semi_leitos_disponiveis: number;
+	@Column("int", {
+		array: true,
+		default: [],
+		nullable: true,
+	})
+	semi_leitos_disponiveis: number[];
 
 	@Column()
 	semi_leitos_valor: number;

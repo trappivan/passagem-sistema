@@ -1,6 +1,8 @@
 import { Router } from "express";
-import { createPassageiro } from "../controller/PassageiroController";
+import { PassageiroController } from "../controller/PassageiroController";
 
 export const passageiroRouter = Router();
 
-passageiroRouter.post("/create", createPassageiro);
+passageiroRouter.post("/create", new PassageiroController().createPassageiro);
+
+passageiroRouter.get("/", new PassageiroController().getPassageiros);

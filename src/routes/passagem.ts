@@ -1,11 +1,8 @@
 import { Router } from "express";
-import {
-	createPassagem,
-	getAllPassagens,
-} from "../controller/PassagemController";
+import { PassagemController } from "../controller/PassagemController";
 
 export const routerPassagem = Router();
 
-routerPassagem.post("/create", createPassagem);
+routerPassagem.post("/create", new PassagemController().createPassagem);
 
-routerPassagem.get("/", getAllPassagens);
+routerPassagem.get("/", new PassagemController().getAllPassagens);

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createBus, getAllBus } from "../controller/BusController";
+import { BusController } from "../controller/BusController";
 
 export const routerBus = Router();
 
-routerBus.post("/create", createBus);
+routerBus.post("/create", new BusController().createBus);
 
-routerBus.get("/", getAllBus);
+routerBus.get("/", new BusController().getAllBus);

@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createLinha, getLinhas } from "../controller/LinhaController";
+import { LinhaController } from "../controller/LinhaController";
 
 export const routerLinha = Router();
 
-routerLinha.post("/create", createLinha);
+routerLinha.post("/create", new LinhaController().createLinha);
 
-routerLinha.get("/", getLinhas);
+routerLinha.get("/", new LinhaController().getLinhas);
