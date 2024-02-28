@@ -21,6 +21,11 @@ export async function createLinha(req: Request, res: Response) {
 	newLinha.nome = nome;
 	newLinha.distancia_km = distancia_km;
 	const saved = await AppDataSource.getRepository(Linha).save(newLinha);
-	console.log("saved", saved);
+	console.log("saved", saved, saved.onibus_id);
 	res.send("createLinha");
+}
+
+export async function getLinhas(req: Request, res: Response) {
+	const linhas = await AppDataSource.getRepository(Linha).find();
+	res.json(linhas);
 }
