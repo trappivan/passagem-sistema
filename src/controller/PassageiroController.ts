@@ -1,25 +1,24 @@
 import { Request, Response } from "express";
 import { Passageiro } from "../entity/Passageiro";
 import { AppDataSource } from "../data-source";
+import PassageiroServices from "../services/PassageiroService";
 
 export class PassageiroController {
 	async createPassageiro(req: Request, res: Response) {
 		const { nome, cpf, email, telefone, data_nascimento } = req.body;
-		const newPassageiro = new Passageiro();
-		newPassageiro.nome = nome;
-		newPassageiro.cpf = cpf;
-		newPassageiro.email = email;
-		newPassageiro.telefone = telefone;
-		newPassageiro.data_nascimento = data_nascimento;
-		newPassageiro.cadastrado = false;
-		newPassageiro.criado_em = new Date();
-		newPassageiro.atualizado_em = new Date();
 
-		const saved = await AppDataSource.getRepository(Passageiro).save(
-			newPassageiro
+		const newPassageiro = PassageiroServices.createPassageiro(
+			nome,
+			cpf,
+			email,
+			telefone,
+			data_nascimento
 		);
-		console.log("saved", saved);
-		res.send("createPassageiro");
+
+		if (!newPassageiro) {
+			return res.status(404).send({ message: "Erro ao criar passageiro" });
+		}
+		return res.status(201).send({ message: "createPassageiro" });
 	}
 
 	async getPassageiros(req: Request, res: Response) {
