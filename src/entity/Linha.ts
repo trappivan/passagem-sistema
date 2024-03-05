@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import {
+	Entity,
+	Column,
+	PrimaryGeneratedColumn,
+	OneToMany,
+	OneToOne,
+	JoinColumn,
+} from "typeorm";
 import { Passagem } from "./Passagem";
 import { Onibus } from "./Onibus";
 
@@ -28,6 +35,7 @@ export class Linha {
 	@OneToMany(() => Passagem, (passagem: Passagem) => passagem.linha_id)
 	passagem: Passagem[];
 
-	@OneToMany(() => Onibus, (onibus: Onibus) => onibus.linha_id)
-	onibus_id: Onibus[];
+	@OneToOne(() => Onibus, (onibus: Onibus) => onibus.linha_id)
+	@JoinColumn()
+	onibus_id: Onibus;
 }

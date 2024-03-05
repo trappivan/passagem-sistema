@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column,
+	Entity,
+	ManyToOne,
+	OneToOne,
+	PrimaryGeneratedColumn,
+} from "typeorm";
 import { Linha } from "./Linha";
 
 @Entity()
@@ -66,6 +72,6 @@ export class Onibus {
 	@Column()
 	semi_leitos_valor: number;
 
-	@ManyToOne(() => Linha, (linha: Linha) => linha.onibus_id)
+	@OneToOne(() => Linha, (linha: Linha) => linha.onibus_id)
 	linha_id: Linha;
 }

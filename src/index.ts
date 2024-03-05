@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express from "express";
 import { AppDataSource } from "./data-source";
 import dotenv from "dotenv";
 import { routerBus } from "./routes/bus";

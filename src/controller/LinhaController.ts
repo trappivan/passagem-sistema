@@ -21,6 +21,7 @@ export class LinhaController {
 		newLinha.desembarque = desembarque;
 		newLinha.nome = nome;
 		newLinha.distancia_km = distancia_km;
+		newLinha.onibus_id = onibus_id;
 		const saved = await AppDataSource.getRepository(Linha).save(newLinha);
 		console.log("saved", saved, saved.onibus_id);
 		res.send("createLinha");

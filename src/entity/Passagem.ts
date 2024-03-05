@@ -18,4 +18,10 @@ export class Passagem {
 
 	@Column()
 	numero_assento: number;
+
+	@Column({ nullable: true })
+	tipo_assento: string;
+
+	@Column({ default: 0 })
+	pagamento_status: number;
 }
