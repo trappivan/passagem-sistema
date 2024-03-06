@@ -18,15 +18,12 @@ export class PassageiroController {
 		if (!newPassageiro) {
 			return res.status(404).send({ message: "Erro ao criar passageiro" });
 		}
-		return res.status(201).send({ message: "createPassageiro" });
+		return res.status(201).send({ message: "createPassageiro", newPassageiro });
 	}
 
 	async getPassageiros(req: Request, res: Response) {
-		const passageiros = await AppDataSource.getRepository(Passageiro).find({
-			relations: {
-				passagens: true,
-			},
-		});
-		res.json(passageiros);
+		const passageiros = await PassageiroServices.findPassageiros();
+
+		res.status(201).json(passageiros);
 	}
 }

@@ -17,6 +17,7 @@ class PassageiroService {
 		data_nascimento: string
 	) {
 		const newPassageiro = new Passageiro();
+
 		newPassageiro.nome = nome;
 		newPassageiro.cpf = cpf;
 		newPassageiro.email = email;
@@ -25,11 +26,21 @@ class PassageiroService {
 		newPassageiro.cadastrado = false;
 		newPassageiro.criado_em = new Date();
 		newPassageiro.atualizado_em = new Date();
-		console.log("sdasdasd", new Date(data_nascimento));
+
 		const saved = await AppDataSource.getRepository(Passageiro).save(
 			newPassageiro
 		);
-		console.log("saved", saved);
+		return saved;
+	}
+
+	async findPassageiros() {
+		const passageiros = await AppDataSource.getRepository(Passageiro).find({
+			relations: {
+				passagens: true,
+			},
+		});
+
+		return passageiros;
 	}
 }
 

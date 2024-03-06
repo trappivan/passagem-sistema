@@ -6,3 +6,5 @@ export const routerLinha = Router();
 routerLinha.post("/create", new LinhaController().createLinha);
 
 routerLinha.get("/", new LinhaController().getLinhas);
+
+routerLinha.get("/:id", new LinhaController().getLinhaById);
