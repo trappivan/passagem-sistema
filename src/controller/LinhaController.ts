@@ -29,12 +29,12 @@ export class LinhaController {
 			return res.status(404).send({ message: "Erro ao criar linha" });
 		}
 
-		res.status(201).send({ message: "createLinha", linha });
+		res.status(201).send({ message: "createLinha", linha: linha });
 	}
 
 	async getLinhaById(req: Request, res: Response) {
-		const { id } = req.params;
-		const linha = await LinhaServices.getLinhaById(Number(id));
+		const { id } = req.body;
+		const linha = await LinhaServices.getLinhaById(id);
 
 		if (!linha) {
 			return res.status(404).send({ message: "Linha não encontrada" });

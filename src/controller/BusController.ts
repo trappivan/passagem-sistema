@@ -12,9 +12,8 @@ export class BusController {
 			poltronas_disponiveis,
 			leitos_disponiveis,
 			semi_leitos_disponiveis,
-			linha_id,
 		} = req.body;
-
+		console.log("req.body", req.body);
 		const newOnibus = onibusService.createOnibus({
 			placa: placa,
 			companhia: companhia,
@@ -22,9 +21,13 @@ export class BusController {
 			poltronas_disponiveis: poltronas_disponiveis,
 			leitos_disponiveis: leitos_disponiveis,
 			semi_leitos_disponiveis: semi_leitos_disponiveis,
-			linha_id: linha_id,
 		} as Partial<Onibus>);
 
+		if (!newOnibus) {
+			return res.status(404).send({ message: "Erro ao criar onibus" });
+		}
+
+		return res.status(201).send({ message: "createBus", newOnibus: newOnibus });
 		res.send("createBus");
 	}
 

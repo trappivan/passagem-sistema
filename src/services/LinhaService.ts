@@ -33,9 +33,9 @@ class LinhaService {
 		return saved;
 	}
 
-	async getLinhaById(id: number) {
+	async getLinhaById(id: Linha) {
 		const linha = await AppDataSource.getRepository(Linha).findOne({
-			where: { id: id },
+			where: id,
 		});
 		return linha;
 	}

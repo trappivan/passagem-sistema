@@ -22,7 +22,6 @@ export class Onibus {
 	assentos_total: number;
 
 	@Column("int", {
-		array: true,
 		nullable: true,
 	})
 	poltronas_total: number;
@@ -38,7 +37,6 @@ export class Onibus {
 	poltronas_valor: number;
 
 	@Column("int", {
-		array: true,
 		nullable: true,
 	})
 	leitos_total: number;
@@ -54,7 +52,6 @@ export class Onibus {
 	leitos_valor: number;
 
 	@Column("int", {
-		array: true,
 		nullable: true,
 	})
 	semi_leitos_total: number;

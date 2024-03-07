@@ -14,7 +14,6 @@ export class PassagemController {
 			tipo_passagem,
 		} = req.body;
 
-		// create service that checks if the seat is available
 		const resultado = await PassagemServices.assentoDisponivel(
 			passageiro_id,
 			linha_id,

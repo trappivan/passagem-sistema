@@ -2,6 +2,7 @@ import { on } from "events";
 import { AppDataSource } from "../data-source";
 import { Onibus } from "../entity/Onibus";
 import PrecoServices from "./PrecoService";
+import { QueryFailedError } from "typeorm";
 
 class OnibusService {
 	async getOnibusById(id: number) {
@@ -30,13 +31,19 @@ class OnibusService {
 		newBus.poltronas_disponiveis = onibus.poltronas_disponiveis;
 		newBus.leitos_disponiveis = onibus.leitos_disponiveis;
 		newBus.semi_leitos_disponiveis = onibus.semi_leitos_disponiveis;
-		newBus.linha_id = onibus.linha_id;
 		newBus.poltronas_total = onibus.poltronas_disponiveis.length;
 		newBus.leitos_total = onibus.leitos_disponiveis.length;
 		newBus.semi_leitos_total = onibus.semi_leitos_disponiveis.length;
 
-		const saved = await AppDataSource.getRepository(Onibus).save(newBus);
-		console.log("saved", saved);
+		try {
+			const saved = await AppDataSource.getRepository(Onibus).save(newBus);
+			console.log("saved", saved);
+			return saved;
+		} catch (error) {
+			if (error instanceof QueryFailedError) {
+				throw new Error(error.driverError.detail);
+			}
+		}
 	}
 }
 
