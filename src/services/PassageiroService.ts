@@ -1,3 +1,4 @@
+import { QueryFailedError } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Passageiro } from "../entity/Passageiro";
 
@@ -27,9 +28,23 @@ class PassageiroService {
 		newPassageiro.criado_em = new Date();
 		newPassageiro.atualizado_em = new Date();
 
-		const saved = await AppDataSource.getRepository(Passageiro).save(
-			newPassageiro
-		);
+		let saved: Passageiro;
+
+		try {
+			saved = await AppDataSource.getRepository(Passageiro).save(newPassageiro);
+		} catch (error) {
+			if (error instanceof QueryFailedError) {
+				console.log("error.message", error.message);
+				console.log("error.message", error.name);
+
+				console.log("error.message", error.driverError);
+				console.log("error.message", error.query);
+				console.log("error.message", error.parameters);
+				console.log("error.stack", error.stack);
+
+				throw new Error(error.driverError);
+			}
+		}
 		return saved;
 	}
 

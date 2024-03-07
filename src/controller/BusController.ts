@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Onibus } from "../entity/Onibus";
 import { AppDataSource } from "../data-source";
+import onibusService from "../services/OnibusService";
 
 export class BusController {
 	async createBus(req: Request, res: Response) {
@@ -8,27 +9,22 @@ export class BusController {
 			placa,
 			companhia,
 			assentos_total,
-			poltronas_total,
-			leitos_total,
-			semi_leitos_total,
+			poltronas_disponiveis,
+			leitos_disponiveis,
+			semi_leitos_disponiveis,
 			linha_id,
 		} = req.body;
-		const newBus = new Onibus();
-		newBus.placa = placa;
-		newBus.companhia = companhia;
-		newBus.assentos_total = assentos_total;
-		newBus.poltronas_total = Array.from(Array(poltronas_total).keys());
-		newBus.leitos_total = Array.from(Array(leitos_total).keys());
-		newBus.semi_leitos_total = Array.from(Array(semi_leitos_total).keys());
-		newBus.linha_id = linha_id;
-		newBus.poltronas_disponiveis = [1, 2, 3, 4, 5, 6];
-		newBus.leitos_disponiveis = Array.from(Array(10).keys());
-		newBus.semi_leitos_disponiveis = Array.from(Array(10).keys());
-		newBus.poltronas_valor = 0;
-		newBus.leitos_valor = 0;
-		newBus.semi_leitos_valor = 0;
-		const saved = await AppDataSource.getRepository(Onibus).save(newBus);
-		console.log("saved", saved);
+
+		const newOnibus = onibusService.createOnibus({
+			placa: placa,
+			companhia: companhia,
+			assentos_total: assentos_total,
+			poltronas_disponiveis: poltronas_disponiveis,
+			leitos_disponiveis: leitos_disponiveis,
+			semi_leitos_disponiveis: semi_leitos_disponiveis,
+			linha_id: linha_id,
+		} as Partial<Onibus>);
+
 		res.send("createBus");
 	}
 

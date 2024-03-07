@@ -7,18 +7,31 @@ export class PassageiroController {
 	async createPassageiro(req: Request, res: Response) {
 		const { nome, cpf, email, telefone, data_nascimento } = req.body;
 
-		const newPassageiro = PassageiroServices.createPassageiro(
+		PassageiroServices.createPassageiro(
 			nome,
 			cpf,
 			email,
 			telefone,
 			data_nascimento
+		).then(
+			(newPassageiro) => {
+				return res
+					.status(201)
+					.send({ message: "createPassageiro", newPassageiro: newPassageiro });
+			},
+			(error) => {
+				return res
+					.status(401)
+					.send({ message: "Erro ao criar passageiro", error: error.message });
+			}
 		);
 
-		if (!newPassageiro) {
-			return res.status(404).send({ message: "Erro ao criar passageiro" });
-		}
-		return res.status(201).send({ message: "createPassageiro", newPassageiro });
+		// if (newPassageiro) {
+		// 	return res.status(404).send({ message: "Erro ao criar passageiro" });
+		// }
+		// return res
+		// 	.status(201)
+		// 	.send({ message: "createPassageiro", newPassageiro: newPassageiro });
 	}
 
 	async getPassageiros(req: Request, res: Response) {

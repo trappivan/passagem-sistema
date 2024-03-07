@@ -23,10 +23,9 @@ export class Onibus {
 
 	@Column("int", {
 		array: true,
-		default: [],
 		nullable: true,
 	})
-	poltronas_total: number[];
+	poltronas_total: number;
 
 	@Column("int", {
 		array: true,
@@ -40,10 +39,9 @@ export class Onibus {
 
 	@Column("int", {
 		array: true,
-		default: [],
 		nullable: true,
 	})
-	leitos_total: number[];
+	leitos_total: number;
 
 	@Column("int", {
 		array: true,
@@ -57,10 +55,9 @@ export class Onibus {
 
 	@Column("int", {
 		array: true,
-		default: [],
 		nullable: true,
 	})
-	semi_leitos_total: number[];
+	semi_leitos_total: number;
 
 	@Column("int", {
 		array: true,

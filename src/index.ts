@@ -5,6 +5,7 @@ import { routerBus } from "./routes/bus";
 import { routerLinha } from "./routes/linha";
 import { passageiroRouter } from "./routes/passageiro";
 import { routerPassagem } from "./routes/passagem";
+import { routerPreco } from "./routes/preco";
 
 dotenv.config();
 AppDataSource.initialize()
@@ -24,6 +25,8 @@ app.use("/linha", routerLinha);
 app.use("/passageiro", passageiroRouter);
 
 app.use("/passagem", routerPassagem);
+
+app.use("/preco", routerPreco);
 
 app.listen(process.env.PORT, () => {
 	console.log("Server running on port 3000");
