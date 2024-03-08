@@ -26,7 +26,7 @@ class PassagemService {
 		const saved = await AppDataSource.getRepository(Onibus).save(
 			assento.onibus_id
 		);
-		console.log("saved", saved);
+
 		return saved;
 	}
 	async poltronasDisponiveis(assento: Linha, assento_posicao: number) {
@@ -49,7 +49,7 @@ class PassagemService {
 		const saved = await AppDataSource.getRepository(Onibus).save(
 			assento.onibus_id
 		);
-		console.log("saved", saved);
+
 		return saved;
 	}
 	async semi_leitosDisponiveis(assento: Linha, assento_posicao: number) {
@@ -72,7 +72,7 @@ class PassagemService {
 		const saved = await AppDataSource.getRepository(Onibus).save(
 			assento.onibus_id
 		);
-		console.log("saved", saved);
+
 		return saved;
 	}
 	async assentoDisponivel(
@@ -85,7 +85,7 @@ class PassagemService {
 		const passageiro = await PassageiroServices.findPassageiroById(
 			passageiro_id
 		);
-		console.log(passageiro);
+
 		if (!passageiro) {
 			return { message: "Passageiro não encontrado" };
 		}

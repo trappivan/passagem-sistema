@@ -1,8 +1,13 @@
 import { Router } from "express";
 import { PassageiroController } from "../controller/PassageiroController";
+import { passageiroValidator } from "../middleware/validation/passageiroValidator";
 
-export const passageiroRouter = Router();
+export const routerPassageiro = Router();
 
-passageiroRouter.post("/create", new PassageiroController().createPassageiro);
+routerPassageiro.post(
+	"/create",
+	[passageiroValidator],
+	new PassageiroController().createPassageiro
+);
 
-passageiroRouter.get("/", new PassageiroController().getPassageiros);
+routerPassageiro.get("/", new PassageiroController().getPassageiros);

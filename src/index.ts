@@ -1,11 +1,8 @@
 import express from "express";
 import { AppDataSource } from "./data-source";
 import dotenv from "dotenv";
-import { routerBus } from "./routes/bus";
-import { routerLinha } from "./routes/linha";
-import { passageiroRouter } from "./routes/passageiro";
-import { routerPassagem } from "./routes/passagem";
-import { routerPreco } from "./routes/preco";
+import { errorHandler } from "./middleware/errorHandler";
+import routes from "./routes";
 
 dotenv.config();
 AppDataSource.initialize()
@@ -18,15 +15,9 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/bus", routerBus);
+app.use(routes);
 
-app.use("/linha", routerLinha);
-
-app.use("/passageiro", passageiroRouter);
-
-app.use("/passagem", routerPassagem);
-
-app.use("/preco", routerPreco);
+app.use(errorHandler);
 
 app.listen(process.env.PORT, () => {
 	console.log("Server running on port 3000");
