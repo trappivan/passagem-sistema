@@ -3,75 +3,103 @@ import validator from "validator";
 
 import { ErrorValidation } from "../../utils/types";
 import { CustomError } from "../../utils/CustomError";
+import { PassageiroDTO } from "../../dto/passageiro-request";
+import { ValidationError, validate } from "class-validator";
 
-export const passageiroValidator = (
+export const passageiroValidator = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const { email, telefone, data_nascimento, cpf } = req.body;
+	const { nome, email, telefone, data_nascimento, cpf } = req.body;
+	console.log(new Date());
+	const errorsValidation: ValidationError[] = [];
+	const validatePassageiro = new PassageiroDTO();
+	validatePassageiro.nome = nome;
+	validatePassageiro.email = email;
+	validatePassageiro.telefone = telefone;
+	validatePassageiro.data_nascimento = data_nascimento;
+	validatePassageiro.cpf = cpf;
 
-	const errors: ErrorValidation[] = [];
+	await validate(validatePassageiro).then((errors) => {
+		if (errors.length > 0) {
+			errors.forEach((e, i) => {
+				errorsValidation.push(e);
+			});
+			console.log(typeof errorsValidation);
+			const error = new CustomError(
+				400,
+				"General",
+				"Erro de validação ao cadastrar passageiro",
+				null,
+				null,
+				errorsValidation
+			);
+			return next(error);
+		}
+		return next();
+	});
+	// const errors: ErrorValidation[] = [];
 
-	if (!validator.isEmail(email)) {
-		errors.push({ email: "Email não condiz com as especificacoes" });
-	}
+	// if (!validator.isEmail(email)) {
+	// 	errors.push({ email: "Email não condiz com as especificacoes" });
+	// }
 
-	if (validator.isEmpty(email)) {
-		errors.push({ email: "Email não pode ser vazio" });
-	}
+	// if (validator.isEmpty(email)) {
+	// 	errors.push({ email: "Email não pode ser vazio" });
+	// }
 
-	if (!validator.isMobilePhone(telefone, "pt-BR")) {
-		errors.push({ telefone: "Telefone não condiz com as especificacoes" });
-	}
+	// if (!validator.isMobilePhone(telefone, "pt-BR")) {
+	// 	errors.push({ telefone: "Telefone não condiz com as especificacoes" });
+	// }
 
-	if (validator.isEmpty(telefone)) {
-		errors.push({ telefone: "Telefone não pode ser vazio" });
-	}
-	console.log(data_nascimento);
-	console.log(
-		"É DATAA",
-		!validator.isDate(data_nascimento, {
-			format: "YYYY/MM/DD",
-			strictMode: true,
-			delimiters: ["/"],
-		})
-	);
+	// if (validator.isEmpty(telefone)) {
+	// 	errors.push({ telefone: "Telefone não pode ser vazio" });
+	// }
+	// console.log(data_nascimento);
+	// console.log(
+	// 	"É DATAA",
+	// 	validator.isDate(data_nascimento, {
+	// 		format: "YYYY/MM/DD",
+	// 		strictMode: true,
+	// 		delimiters: ["/"],
+	// 	})
+	// );
 
-	// USAR JOI PARA VALIDAR DATA
-	if (
-		!validator.isDate(data_nascimento, {
-			format: "DD-MM-YYYY",
-			strictMode: true,
-			delimiters: ["-"],
-		})
-	) {
-		console.log("entrouuu");
-		errors.push({
-			data_nascimento: "Data de nascimento não condiz com o campo",
-		});
-	}
+	// // USAR JOI PARA VALIDAR DATA
+	// if (
+	// 	!validator.isDate(data_nascimento, {
+	// 		format: "DD-MM-YYYY",
+	// 		strictMode: true,
+	// 		delimiters: ["-"],
+	// 	})
+	// ) {
+	// 	console.log("entrouuu");
+	// 	errors.push({
+	// 		data_nascimento: "Data de nascimento não condiz com o campo",
+	// 	});
+	// }
 
-	if (validator.isEmpty(data_nascimento)) {
-		errors.push({ data_nascimento: "Data de nascimento não pode ser vazio" });
-	}
+	// if (validator.isEmpty(data_nascimento)) {
+	// 	errors.push({ data_nascimento: "Data de nascimento não pode ser vazio" });
+	// }
 
-	if (validator.isEmpty(cpf)) {
-		errors.push({ cpf: "CPF não pode ser vazio" });
-	}
-	console.log(errors);
-	if (errors.length !== 0) {
-		const error = new CustomError(
-			400,
-			"General",
-			"Erro de validação ao cadastrar passageiro",
-			null,
-			null,
-			errors
-		);
+	// if (validator.isEmpty(cpf)) {
+	// 	errors.push({ cpf: "CPF não pode ser vazio" });
+	// }
+	// console.log(errors);
+	// if (errors.length !== 0) {
+	// 	const error = new CustomError(
+	// 		400,
+	// 		"General",
+	// 		"Erro de validação ao cadastrar passageiro",
+	// 		null,
+	// 		null,
+	// 		errors
+	// 	);
 
-		return next(error);
-	}
+	// 	return next(error);
+	// }
 
-	return next();
+	// return next();
 };

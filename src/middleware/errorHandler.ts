@@ -9,11 +9,15 @@ export const errorHandler = (
 	next: NextFunction
 ) => {
 	return res.status(err.httpStatusCode).json({
-		statusCode: err.httpStatusCode,
-		error: err.errorsValidation,
 		errorType: err.errorType,
 		errorMessage: err.message,
+		errors: err.errors,
 		errorRaw: err.errorRaw,
+		errorsValidation: err.errorsValidation.map((e, i) => {
+			return {
+				constraints: e.constraints,
+			};
+		}),
 		stack: err.stack,
 	});
 };

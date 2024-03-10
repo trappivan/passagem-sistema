@@ -1,3 +1,4 @@
+import { ValidationError } from "class-validator";
 import { ErrorType, ErrorValidation, ErrorResponse } from "./types";
 
 export class CustomError extends Error {
@@ -5,7 +6,7 @@ export class CustomError extends Error {
 	public errorType: ErrorType;
 	public errors: string[] | null;
 	public errorRaw: any;
-	public errorsValidation: ErrorValidation[] | null;
+	public errorsValidation: ValidationError[] | null;
 
 	constructor(
 		httpStatusCode: number,
@@ -13,7 +14,7 @@ export class CustomError extends Error {
 		message: string,
 		errors: string[] | null = null,
 		errorRaw: any = null,
-		errorsValidation: ErrorValidation[] | null = null
+		errorsValidation: ValidationError[] | null = null
 	) {
 		super(message);
 
@@ -35,13 +36,18 @@ export class CustomError extends Error {
 	// 	return this.httpStatusCode;
 	// }
 
-	// get JSON(): ErrorResponse {
+	// get JSON() {
 	// 	return {
 	// 		errorType: this.errorType,
 	// 		errorMessage: this.message,
 	// 		errors: this.errors,
 	// 		errorRaw: this.errorRaw,
-	// 		errorsValidation: this.errorsValidation,
+	// 		errorsValidation: this.errorsValidation.map((e, i) => {
+	// 			return {
+	// 				property: e.property,
+	// 				constraints: e.constraints,
+	// 			};
+	// 		}),
 	// 		stack: this.stack,
 	// 	};
 	// }
