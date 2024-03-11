@@ -10,6 +10,7 @@ TODO:
 
 [ ] - Handle error with pg documentation
 [ ] - Handle concurrency
-[ ] - add JWT Token
+[ ] - Add JWT Token
 [ ] - Create middleware to validate data types needed
 [ ] - Refactor all the requests to return same object structure
+[ ] - Create tests with jest
