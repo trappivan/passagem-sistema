@@ -13,10 +13,12 @@ export const errorHandler = (
 		errorMessage: err.message,
 		errors: err.errors,
 		errorRaw: err.errorRaw,
-		errorsValidation: err.errorsValidation.map((e, i) => {
-			return {
-				constraints: e.constraints,
-			};
+		errorsValidation: err?.errorsValidation?.map((e, i) => {
+			return Object.entries(e.constraints)
+				.map((e, i) => {
+					return e[1];
+				})
+				.join(", ");
 		}),
 		stack: err.stack,
 	});

@@ -1,10 +1,11 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Passageiro } from "../entity/Passageiro";
 import { AppDataSource } from "../data-source";
 import PassageiroServices from "../services/PassageiroService";
+import { errorHandler } from "../middleware/errorHandler";
 
 export class PassageiroController {
-	async createPassageiro(req: Request, res: Response) {
+	async createPassageiro(req: Request, res: Response, next: NextFunction) {
 		const { nome, cpf, email, telefone, data_nascimento } = req.body;
 
 		PassageiroServices.createPassageiro(
@@ -20,10 +21,7 @@ export class PassageiroController {
 					.send({ message: "createPassageiro", newPassageiro: newPassageiro });
 			})
 			.catch((error) => {
-				console.log("ERROO", error);
-				return res
-					.status(401)
-					.send({ message: "Erro ao criar passageiro", error: error.message });
+				return next(error);
 			});
 
 		// if (newPassageiro) {
@@ -38,5 +36,17 @@ export class PassageiroController {
 		const passageiros = await PassageiroServices.findPassageiros();
 
 		res.status(201).json(passageiros);
+	}
+
+	async getPassageiroById(req: Request, res: Response) {
+		const { id } = req.params;
+
+		const passageiro = await PassageiroServices.findPassageiroById(
+			parseInt(id)
+		);
+		console.log(passageiro);
+		return res.status(200).json({
+			passageiro: passageiro,
+		});
 	}
 }

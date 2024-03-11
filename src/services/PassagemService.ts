@@ -76,7 +76,7 @@ class PassagemService {
 		return saved;
 	}
 	async assentoDisponivel(
-		passageiro_id: Passageiro,
+		passageiro_id: number,
 		linha_id: Linha,
 		numero_assento: number,
 		valor_passagem: number,
@@ -122,8 +122,8 @@ class PassagemService {
 
 		const newPassagem = new Passagem();
 
-		newPassagem.passageiro = passageiro_id;
-		newPassagem.linha_id = linha_id;
+		newPassagem.passageiro = passageiro;
+		newPassagem.linha_id = linha;
 		newPassagem.numero_assento = numero_assento;
 		newPassagem.valor_passagem = valor_passagem;
 		newPassagem.tipo_assento = tipo_passagem;

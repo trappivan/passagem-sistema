@@ -2,6 +2,7 @@ import {
 	IsDate,
 	IsDateString,
 	IsEmail,
+	IsInt,
 	IsNotEmpty,
 	IsPhoneNumber,
 	IsString,
@@ -13,6 +14,10 @@ import {
 } from "class-validator";
 
 export class PassageiroDTO {
+	@IsNotEmpty({ message: "Id não pode ser vazio" })
+	@IsInt({ message: "Id deve ser um número inteiro" })
+	id: number;
+
 	@IsNotEmpty({ message: "Nome não pode ser vazio" })
 	@IsString({ message: "Nome deve ser uma string" })
 	@MinLength(3, { message: "Nome deve ter no mínimo 3 caracteres" })

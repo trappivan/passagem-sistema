@@ -1,13 +1,15 @@
-import { QueryFailedError } from "typeorm";
+import { FindOperator, QueryFailedError } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Passageiro } from "../entity/Passageiro";
 import { CustomError } from "../utils/CustomError";
 
 class PassageiroService {
-	async findPassageiroById(id: Passageiro) {
-		const passageiro = await AppDataSource.getRepository(Passageiro).findOne({
-			where: id,
+	async findPassageiroById(id: number) {
+		const passageiro = await AppDataSource.getRepository(Passageiro).findOneBy({
+			id: id,
 		});
+
+		console.log(passageiro);
 		return passageiro;
 	}
 
@@ -34,17 +36,18 @@ class PassageiroService {
 		try {
 			saved = await AppDataSource.getRepository(Passageiro).save(newPassageiro);
 		} catch (error) {
-			console.log(error);
-
-			throw new CustomError(
+			const customError = new CustomError(
 				401,
 				"Unauthorized",
 				"Não foi possível criar novo passageiro",
+				error.message,
 				null,
-				null,
-				error
+				null
 			);
+
+			throw customError;
 		}
+
 		return saved;
 	}
 

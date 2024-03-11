@@ -1,13 +1,20 @@
 import { Router } from "express";
 import { PassageiroController } from "../controller/PassageiroController";
-import { passageiroValidator } from "../middleware/validation/passageiroValidator";
+import { passageiroCreateValidation } from "../middleware/validation/passageiro/passageiroCreate";
+import { passageiroGetByIdValidation } from "../middleware/validation/passageiro/passageiroGetById";
 
 export const routerPassageiro = Router();
 
 routerPassageiro.post(
 	"/create",
-	[passageiroValidator],
+	passageiroCreateValidation,
 	new PassageiroController().createPassageiro
 );
 
 routerPassageiro.get("/", new PassageiroController().getPassageiros);
+
+routerPassageiro.get(
+	"/:id",
+	passageiroGetByIdValidation,
+	new PassageiroController().getPassageiroById
+);
