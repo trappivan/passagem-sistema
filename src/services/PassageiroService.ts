@@ -1,6 +1,7 @@
 import { QueryFailedError } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Passageiro } from "../entity/Passageiro";
+import { CustomError } from "../utils/CustomError";
 
 class PassageiroService {
 	async findPassageiroById(id: Passageiro) {
@@ -33,9 +34,16 @@ class PassageiroService {
 		try {
 			saved = await AppDataSource.getRepository(Passageiro).save(newPassageiro);
 		} catch (error) {
-			if (error instanceof QueryFailedError) {
-				throw new Error(error.driverError.detail);
-			}
+			console.log(error);
+
+			throw new CustomError(
+				401,
+				"Unauthorized",
+				"Não foi possível criar novo passageiro",
+				null,
+				null,
+				error
+			);
 		}
 		return saved;
 	}

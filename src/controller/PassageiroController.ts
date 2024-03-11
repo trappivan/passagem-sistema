@@ -13,18 +13,18 @@ export class PassageiroController {
 			email,
 			telefone,
 			data_nascimento
-		).then(
-			(newPassageiro) => {
+		)
+			.then((newPassageiro) => {
 				return res
 					.status(201)
 					.send({ message: "createPassageiro", newPassageiro: newPassageiro });
-			},
-			(error) => {
+			})
+			.catch((error) => {
+				console.log("ERROO", error);
 				return res
 					.status(401)
 					.send({ message: "Erro ao criar passageiro", error: error.message });
-			}
-		);
+			});
 
 		// if (newPassageiro) {
 		// 	return res.status(404).send({ message: "Erro ao criar passageiro" });
