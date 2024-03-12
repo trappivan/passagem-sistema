@@ -8,7 +8,13 @@ export const passageiroCreateValidation = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const { nome, email, telefone, data_nascimento, cpf } = req.body;
+	const {
+		nome,
+		email,
+		telefone,
+		data_nascimento,
+		cpf,
+	}: Partial<PassageiroDTO> = req.body;
 
 	const errorsValidation: ValidationError[] = [];
 

@@ -23,13 +23,6 @@ export class PassageiroController {
 			.catch((error) => {
 				return next(error);
 			});
-
-		// if (newPassageiro) {
-		// 	return res.status(404).send({ message: "Erro ao criar passageiro" });
-		// }
-		// return res
-		// 	.status(201)
-		// 	.send({ message: "createPassageiro", newPassageiro: newPassageiro });
 	}
 
 	async getPassageiros(req: Request, res: Response) {

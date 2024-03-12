@@ -17,7 +17,7 @@ export class Linha {
 	@Column("varchar", { length: 100, nullable: false })
 	companhia: string;
 
-	@Column("varchar", { length: 5, nullable: false })
+	@Column("varchar", { length: 13, nullable: true })
 	horario: string;
 
 	@Column("varchar", { length: 100, nullable: false })

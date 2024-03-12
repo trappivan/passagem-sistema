@@ -77,7 +77,7 @@ class PassagemService {
 	}
 	async assentoDisponivel(
 		passageiro_id: number,
-		linha_id: Linha,
+		linha_id: number,
 		numero_assento: number,
 		valor_passagem: number,
 		tipo_passagem: string
@@ -97,7 +97,7 @@ class PassagemService {
 		}
 		const assento = await AppDataSource.getRepository(Linha).findOne({
 			relations: ["onibus_id"],
-			where: linha_id,
+			where: { id: linha_id },
 			// Adicionar lock para evitar que duas pessoas comprem o mesmo assento
 			// lock: { mode: "pessimistic_write", tables: ["onibus"] },
 		});

@@ -12,7 +12,7 @@ export class Onibus {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column()
+	@Column({ unique: true })
 	placa: string;
 
 	@Column()

@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { ErrorValidation } from "../../../utils/types";
 import { PassageiroDTO } from "../../../dto/passageiro-request";
 import { ValidationError, validate } from "class-validator";
 import { CustomError } from "../../../utils/CustomError";

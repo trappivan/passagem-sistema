@@ -1,15 +1,11 @@
 import {
-	IsAlphanumeric,
 	IsInt,
-	IsNegative,
 	IsNotEmpty,
 	IsNumber,
 	IsPositive,
 	IsString,
 	Matches,
-	isNumber,
 } from "class-validator";
-import { matches } from "validator";
 
 export class PassagemDTO {
 	@IsNotEmpty({ message: "Id do passageiro não pode ser vazio" })

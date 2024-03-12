@@ -1,5 +1,4 @@
 import {
-	IsDate,
 	IsDateString,
 	IsEmail,
 	IsInt,
@@ -8,9 +7,6 @@ import {
 	IsString,
 	Matches,
 	MinLength,
-	isNotEmpty,
-	isString,
-	min,
 } from "class-validator";
 
 export class PassageiroDTO {
