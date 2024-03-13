@@ -15,7 +15,7 @@ export const passageiroGetByIdValidation = async (
 	const passageiro: Partial<PassageiroDTO> = new PassageiroDTO();
 	passageiro.id = Number(id);
 
-	const validater = await validate(passageiro, {
+	await validate(passageiro, {
 		skipMissingProperties: true,
 	}).then((errors) => {
 		if (errors.length > 0) {
@@ -35,6 +35,6 @@ export const passageiroGetByIdValidation = async (
 			return next(customError);
 		}
 	});
-	console.log("validatervalidater", validater);
+
 	return next();
 };

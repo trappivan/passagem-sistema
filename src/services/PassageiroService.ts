@@ -5,11 +5,26 @@ import { CustomError } from "../utils/CustomError";
 
 class PassageiroService {
 	async findPassageiroById(id: number) {
-		const passageiro = await AppDataSource.getRepository(Passageiro).findOneBy({
-			id: id,
-		});
+		const passageiro = await AppDataSource.getRepository(Passageiro)
+			.findOneBy({
+				id: id,
+			})
+			.then((response) => {
+				if (response === null) {
+					const customError = new CustomError(
+						404,
+						"General",
+						"Passageiro não encontrado",
+						null,
+						null,
+						null
+					);
+					throw customError;
+				}
 
-		console.log(passageiro);
+				return response;
+			});
+
 		return passageiro;
 	}
 

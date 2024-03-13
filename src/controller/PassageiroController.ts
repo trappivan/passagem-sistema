@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, response } from "express";
 import { Passageiro } from "../entity/Passageiro";
 import { AppDataSource } from "../data-source";
 import PassageiroServices from "../services/PassageiroService";
@@ -31,15 +31,15 @@ export class PassageiroController {
 		res.status(201).json(passageiros);
 	}
 
-	async getPassageiroById(req: Request, res: Response) {
+	async getPassageiroById(req: Request, res: Response, next: NextFunction) {
 		const { id } = req.params;
 
-		const passageiro = await PassageiroServices.findPassageiroById(
-			parseInt(id)
-		);
-		console.log(passageiro);
-		return res.status(200).json({
-			passageiro: passageiro,
-		});
+		await PassageiroServices.findPassageiroById(Number(id))
+			.then((response) => {
+				return res.status(200).json(response);
+			})
+			.catch((error) => {
+				return next(error);
+			});
 	}
 }

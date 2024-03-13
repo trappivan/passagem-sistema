@@ -1,5 +1,6 @@
 import { AppDataSource } from "../data-source";
 import { Preco } from "../entity/Preco";
+import { CustomError } from "../utils/CustomError";
 
 class PrecoService {
 	async createPreco(preco: Partial<Preco>) {
@@ -12,17 +13,42 @@ class PrecoService {
 		newPreco.poltrona_base = preco.poltrona_base;
 		newPreco.semi_leito_base = preco.semi_leito_base;
 
-		const saved = await AppDataSource.getRepository(Preco).save(newPreco);
+		let saved: Preco;
 
-		console.log("saved", saved);
+		try {
+			saved = await AppDataSource.getRepository(Preco).save(newPreco);
+		} catch (error) {
+			throw new CustomError(
+				500,
+				"General",
+				"Erro ao salvar preço",
+				[error.message],
+				null,
+				null
+			);
+		}
 
 		return saved;
 	}
 
 	async findPreco(companhia: string) {
-		const precoBase = AppDataSource.getRepository(Preco).findOne({
-			where: { companhia: companhia },
-		});
+		const precoBase = AppDataSource.getRepository(Preco)
+			.findOne({
+				where: { companhia: companhia },
+			})
+			.then((response) => {
+				if (response === null) {
+					throw new CustomError(
+						404,
+						"General",
+						"Preço não encontrado",
+						null,
+						null,
+						null
+					);
+				}
+				return response;
+			});
 
 		return precoBase;
 	}

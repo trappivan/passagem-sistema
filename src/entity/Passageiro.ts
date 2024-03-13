@@ -24,7 +24,7 @@ export class Passageiro {
 	@Column()
 	cadastrado: boolean;
 
-	@Column("varchar", { length: 11, nullable: true, unique: true, name: "cpf" })
+	@Column("varchar", { length: 14, nullable: true, unique: true, name: "cpf" })
 	cpf: string;
 
 	@Column("date", { name: "data_nascimento", nullable: true })

@@ -65,9 +65,23 @@ class LinhaService {
 	}
 
 	async getLinhaById(id: number) {
-		const linha = await AppDataSource.getRepository(Linha).findOne({
-			where: { id: id },
-		});
+		const linha = await AppDataSource.getRepository(Linha)
+			.findOne({
+				where: { id: id },
+			})
+			.then((response) => {
+				if (response === null) {
+					throw new CustomError(
+						404,
+						"General",
+						"Linha não encontrada",
+						null,
+						null,
+						null
+					);
+				}
+				return response;
+			});
 		return linha;
 	}
 

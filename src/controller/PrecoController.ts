@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { Preco } from "../entity/Preco";
 import PrecoServices from "../services/PrecoService";
 
 export class PrecoController {
-	async createPreco(req: Request, res: Response) {
+	async createPreco(req: Request, res: Response, next: NextFunction) {
 		const {
 			companhia,
 			coeficiente_gaso,
@@ -13,31 +13,31 @@ export class PrecoController {
 			semi_leito_base,
 		}: Preco = req.body;
 
-		const preco = await PrecoServices.createPreco({
+		await PrecoServices.createPreco({
 			coeficiente_gaso,
 			coeficiente_pedagio,
 			companhia,
 			leito_base,
 			poltrona_base,
 			semi_leito_base,
-		} as Partial<Preco>);
-
-		if (!preco) {
-			return res.status(400).send("Erro ao criar preço");
-		}
-
-		return res.status(201).json(preco);
+		})
+			.then((response) => {
+				return res.status(201).json(response);
+			})
+			.catch((error) => {
+				return next(error);
+			});
 	}
 
-	async findPreco(req: Request, res: Response) {
+	async findPreco(req: Request, res: Response, next: NextFunction) {
 		const { companhia }: Partial<Preco> = req.params;
 
-		const preco = await PrecoServices.findPreco(companhia);
-
-		if (!preco) {
-			return res.status(404).send("Preço não encontrado");
-		}
-
-		return res.status(200).json(preco);
+		await PrecoServices.findPreco(companhia)
+			.then((response) => {
+				return res.status(200).json(response);
+			})
+			.catch((error) => {
+				return next(error);
+			});
 	}
 }

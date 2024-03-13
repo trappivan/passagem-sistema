@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { PassageiroController } from "../controller/PassageiroController";
-import { passageiroCreateValidation } from "../middleware/validation/passageiro/passageiroCreate";
-import { passageiroGetByIdValidation } from "../middleware/validation/passageiro/passageiroGetById";
+import { passageiroCreateValidation } from "../middleware/validation/passageiro/create";
+import { passageiroGetByIdValidation } from "../middleware/validation/passageiro/getOne";
 
 export const routerPassageiro = Router();
 

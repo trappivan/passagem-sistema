@@ -32,7 +32,7 @@ export const passageiroCreateValidation = async (
 				errors.forEach((e, i) => {
 					errorsValidation.push(e);
 				});
-				console.log(typeof errorsValidation);
+
 				const error = new CustomError(
 					401,
 					"General",

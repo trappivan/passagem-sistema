@@ -13,7 +13,7 @@ export const errorHandler = (
 		errorMessage: err.message,
 		errors: err.errors,
 		errorRaw: err.errorRaw,
-		errorsValidation: err?.errorsValidation?.map((e, i) => {
+		errorsValidation: err?.errorsValidation?.map((e) => {
 			return Object.entries(e.constraints)
 				.map((e, i) => {
 					return e[1];

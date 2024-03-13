@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { Onibus } from "../entity/Onibus";
-import { AppDataSource } from "../data-source";
 import onibusService from "../services/OnibusService";
 import { CustomError } from "../utils/CustomError";
 

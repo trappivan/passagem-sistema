@@ -3,6 +3,7 @@ import { Linha } from "../entity/Linha";
 import { Onibus } from "../entity/Onibus";
 import { Passageiro } from "../entity/Passageiro";
 import { Passagem } from "../entity/Passagem";
+import { CustomError } from "../utils/CustomError";
 import LinhaServices from "./LinhaService";
 import PassageiroServices from "./PassageiroService";
 
@@ -84,17 +85,36 @@ class PassagemService {
 	) {
 		const passageiro = await PassageiroServices.findPassageiroById(
 			passageiro_id
+		).then((response) => {
+			if (response === null) {
+				throw new CustomError(
+					404,
+					"General",
+					"Passageiro não encontrado",
+					null,
+					null,
+					null
+				);
+			}
+			return response;
+		});
+
+		const linha = await LinhaServices.getLinhaById(linha_id).then(
+			(response) => {
+				if (response === null) {
+					throw new CustomError(
+						404,
+						"General",
+						"Linha não encontrada",
+						null,
+						null,
+						null
+					);
+				}
+				return response;
+			}
 		);
 
-		if (!passageiro) {
-			return { message: "Passageiro não encontrado" };
-		}
-
-		const linha = await LinhaServices.getLinhaById(linha_id);
-
-		if (!linha) {
-			return { message: "Linha não encontrada" };
-		}
 		const assento = await AppDataSource.getRepository(Linha).findOne({
 			relations: ["onibus_id"],
 			where: { id: linha_id },
@@ -128,7 +148,20 @@ class PassagemService {
 		newPassagem.valor_passagem = valor_passagem;
 		newPassagem.tipo_assento = tipo_passagem;
 
-		const saved = await AppDataSource.getRepository(Passagem).save(newPassagem);
+		let saved: Passagem;
+
+		try {
+			await AppDataSource.getRepository(Passagem).save(newPassagem);
+		} catch (error) {
+			throw new CustomError(
+				401,
+				"Unauthorized",
+				"Não foi possível criar nova passagem",
+				error.message,
+				null,
+				null
+			);
+		}
 
 		return { saved: saved, message: "Passagem criada com sucesso" };
 	}
@@ -140,8 +173,6 @@ class PassagemService {
 				linha_id: true,
 			},
 		});
-
-		console.log(passagens);
 
 		return passagens;
 	}

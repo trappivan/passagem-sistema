@@ -8,9 +8,9 @@ Steps to run this project:
 
 TODO:
 
-[ ] - Handle error with pg documentation
+[x] - Handle error with pg documentation
 [ ] - Handle concurrency
 [ ] - Add JWT Token
-[ ] - Create middleware to validate data types needed
-[ ] - Refactor all the requests to return same object structure
+[x] - Create middleware to validate data types needed
+[x] - Refactor all the requests to return same object structure
 [ ] - Create tests with jest

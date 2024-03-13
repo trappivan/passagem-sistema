@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, Response, response } from "express";
 import { AppDataSource } from "../data-source";
 import { Linha } from "../entity/Linha";
 import LinhaServices from "../services/LinhaService";
@@ -37,13 +37,14 @@ export class LinhaController {
 
 	async getLinhaById(req: Request, res: Response, next: NextFunction) {
 		const { id } = req.params;
-		const linha = await LinhaServices.getLinhaById(Number(id));
 
-		if (!linha) {
-			return res.status(404).send({ message: "Linha não encontrada" });
-		}
-
-		return res.status(201).json(linha);
+		await LinhaServices.getLinhaById(Number(id))
+			.then((response) => {
+				return res.status(200).json(response);
+			})
+			.catch((error: CustomError) => {
+				return next(error);
+			});
 	}
 
 	async getLinhas(req: Request, res: Response) {
