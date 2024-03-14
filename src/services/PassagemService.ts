@@ -1,4 +1,5 @@
 import { AppDataSource } from "../data-source";
+import { PassageiroDTO } from "../dto/passageiro-request";
 import { Linha } from "../entity/Linha";
 import { Onibus } from "../entity/Onibus";
 import { Passageiro } from "../entity/Passageiro";
@@ -77,27 +78,27 @@ class PassagemService {
 		return saved;
 	}
 	async assentoDisponivel(
-		passageiro_id: number,
 		linha_id: number,
 		numero_assento: number,
 		valor_passagem: number,
-		tipo_passagem: string
+		tipo_passagem: string,
+		token: string
 	) {
-		const passageiro = await PassageiroServices.findPassageiroById(
-			passageiro_id
-		).then((response) => {
-			if (response === null) {
-				throw new CustomError(
-					404,
-					"General",
-					"Passageiro não encontrado",
-					null,
-					null,
-					null
-				);
-			}
-			return response;
-		});
+		// const passageiro = await PassageiroServices.findPassageiroById(
+		// 	passageiro_id
+		// ).then((response) => {
+		// 	if (response === null) {
+		// 		throw new CustomError(
+		// 			404,
+		// 			"General",
+		// 			"Passageiro não encontrado",
+		// 			null,
+		// 			null,
+		// 			null
+		// 		);
+		// 	}
+		// 	return response;
+		// });
 
 		const linha = await LinhaServices.getLinhaById(linha_id).then(
 			(response) => {
@@ -142,11 +143,12 @@ class PassagemService {
 
 		const newPassagem = new Passagem();
 
-		newPassagem.passageiro = passageiro;
 		newPassagem.linha_id = linha;
 		newPassagem.numero_assento = numero_assento;
 		newPassagem.valor_passagem = valor_passagem;
 		newPassagem.tipo_assento = tipo_passagem;
+		newPassagem.pagamento_status = 1;
+		newPassagem.tokenSession = token;
 
 		let saved: Passagem;
 
@@ -163,7 +165,72 @@ class PassagemService {
 			);
 		}
 
-		return { saved: saved, message: "Passagem criada com sucesso" };
+		return { saved: saved, message: "Passagem reservada com sucesso" };
+	}
+
+	async createPassagem(id: number, token: string, passageiro: Passageiro) {
+		const newPassageiro = await PassageiroServices.createPassageiro(passageiro);
+
+		const PassagemToken = await AppDataSource.getRepository(Passagem)
+			.findOne({
+				where: { tokenSession: token },
+			})
+			.then((response) => {
+				if (response === null) {
+					throw new CustomError(
+						404,
+						"General",
+						"Token não encontrado",
+						null,
+						null,
+						null
+					);
+				}
+				return response;
+			});
+		console.log("PassagemToken", PassagemToken);
+		const newPassagem = new Passagem();
+
+		newPassagem.passageiro = newPassageiro;
+		newPassagem.pagamento_status = 2;
+
+		let saved;
+
+		try {
+			saved = await AppDataSource.getRepository(Passagem)
+				.update(
+					{ id: PassagemToken.id },
+					{
+						passageiro: newPassagem.passageiro,
+						pagamento_status: newPassagem.pagamento_status,
+					}
+				)
+				.then((response) => {
+					return response;
+				})
+				.catch((error) => {
+					throw new CustomError(
+						401,
+						"Unauthorized",
+						"Não foi possível criar nova passagem",
+						error.message,
+						null,
+						null
+					);
+				});
+		} catch (error) {
+			const customError = new CustomError(
+				401,
+				"Unauthorized",
+				"Não foi possível criar nova passagem",
+				error.message,
+				null,
+				null
+			);
+
+			throw customError;
+		}
+		return saved;
 	}
 
 	async getAll() {

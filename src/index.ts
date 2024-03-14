@@ -3,6 +3,7 @@ import { AppDataSource } from "./data-source";
 import dotenv from "dotenv";
 import { errorHandler } from "./middleware/errorHandler";
 import routes from "./routes";
+import session from "express-session";
 
 dotenv.config();
 AppDataSource.initialize()
@@ -14,6 +15,13 @@ AppDataSource.initialize()
 const app = express();
 
 app.use(express.json());
+
+app.use(
+	session({
+		secret: process.env.SESSION_SECRET_KEY!,
+		cookie: { httpOnly: true, maxAge: 600000 },
+	})
+);
 
 app.use(routes);
 

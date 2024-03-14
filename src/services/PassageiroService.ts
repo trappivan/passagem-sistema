@@ -2,6 +2,7 @@ import { FindOperator, QueryFailedError } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Passageiro } from "../entity/Passageiro";
 import { CustomError } from "../utils/CustomError";
+import { Usuario } from "../entity/Usuario";
 
 class PassageiroService {
 	async findPassageiroById(id: number) {
@@ -28,23 +29,14 @@ class PassageiroService {
 		return passageiro;
 	}
 
-	async createPassageiro(
-		nome: string,
-		cpf: string,
-		email: string,
-		telefone: string,
-		data_nascimento: string
-	) {
+	async createPassageiro(passageiro: Passageiro) {
 		const newPassageiro = new Passageiro();
 
-		newPassageiro.nome = nome;
-		newPassageiro.cpf = cpf;
-		newPassageiro.email = email;
-		newPassageiro.telefone = telefone;
-		newPassageiro.data_nascimento = new Date(data_nascimento);
-		newPassageiro.cadastrado = false;
+		newPassageiro.nome = passageiro.nome;
+		newPassageiro.cpf = passageiro.cpf;
+		newPassageiro.email = passageiro.email;
+		newPassageiro.telefone = passageiro.telefone;
 		newPassageiro.criado_em = new Date();
-		newPassageiro.atualizado_em = new Date();
 
 		let saved: Passageiro;
 
@@ -54,7 +46,7 @@ class PassageiroService {
 			const customError = new CustomError(
 				401,
 				"Unauthorized",
-				"Não foi possível criar novo passageiro",
+				"Não foi possível criar novo usuário",
 				error.message,
 				null,
 				null

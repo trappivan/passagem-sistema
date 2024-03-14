@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { PassageiroDTO } from "../../../dto/passageiro-request";
+// import { Usuario } from "../../../dto/passageiro-request";
 import { ValidationError, validate } from "class-validator";
 import { CustomError } from "../../../utils/CustomError";
+import { Usuario } from "../../../entity/Usuario";
+import { Passageiro } from "../../../entity/Passageiro";
 
 export const passageiroGetByIdValidation = async (
 	req: Request,
@@ -12,7 +14,7 @@ export const passageiroGetByIdValidation = async (
 
 	const errorsValidation: ValidationError[] = [];
 
-	const passageiro: Partial<PassageiroDTO> = new PassageiroDTO();
+	const passageiro: Passageiro = new Passageiro();
 	passageiro.id = Number(id);
 
 	await validate(passageiro, {

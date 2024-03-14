@@ -14,3 +14,8 @@ TODO:
 [x] - Create middleware to validate data types needed
 [x] - Refactor all the requests to return same object structure
 [ ] - Create tests with jest
+
+Passagem pagamento_status
+0 = Reservada
+1 = Criada e aguardando pagamento
+2 = Pago

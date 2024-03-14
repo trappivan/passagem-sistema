@@ -1,6 +1,8 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Passageiro } from "./Passageiro";
 import { Linha } from "./Linha";
+import { Passageiro } from "./Passageiro";
+import { Usuario } from "./Usuario";
+import { PassageiroDTO } from "../dto/passageiro-request";
 
 @Entity()
 export class Passagem {
@@ -13,10 +15,10 @@ export class Passagem {
 	@ManyToOne(() => Passageiro, (passageiro) => passageiro.passagens)
 	passageiro: Passageiro;
 
-	@Column()
+	@Column({ nullable: true })
 	valor_passagem: number;
 
-	@Column()
+	@Column({ nullable: true })
 	numero_assento: number;
 
 	@Column({ nullable: true })
@@ -24,4 +26,7 @@ export class Passagem {
 
 	@Column({ default: 0 })
 	pagamento_status: number;
+
+	@Column("varchar", { length: 100, nullable: true })
+	tokenSession: string;
 }

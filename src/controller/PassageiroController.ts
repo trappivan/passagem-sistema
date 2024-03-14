@@ -6,19 +6,11 @@ import { errorHandler } from "../middleware/errorHandler";
 
 export class PassageiroController {
 	async createPassageiro(req: Request, res: Response, next: NextFunction) {
-		const { nome, cpf, email, telefone, data_nascimento } = req.body;
+		const { nome, cpf, email, telefone }: Passageiro = req.body;
 
-		PassageiroServices.createPassageiro(
-			nome,
-			cpf,
-			email,
-			telefone,
-			data_nascimento
-		)
+		PassageiroServices.createPassageiro({ nome, cpf, email, telefone })
 			.then((newPassageiro) => {
-				return res
-					.status(201)
-					.send({ message: "createPassageiro", newPassageiro: newPassageiro });
+				return next();
 			})
 			.catch((error) => {
 				return next(error);

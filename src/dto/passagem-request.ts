@@ -21,7 +21,10 @@ export class PassagemDTO {
 	numero_assento: number;
 
 	@IsNotEmpty({ message: "Valor da passagem não pode ser vazio" })
-	@IsNumber()
+	@IsNumber(
+		{ allowNaN: false },
+		{ message: "Valor da passagem deve ser um número" }
+	)
 	@IsPositive({ message: "Valor da passagem não deve ser um número negativo" })
 	valor_passagem: number;
 
@@ -31,4 +34,8 @@ export class PassagemDTO {
 		message: "Tipo de passagem deve ser leito, semi_leito ou poltrona",
 	})
 	tipo_passagem: string;
+
+	@IsNotEmpty({ message: "Token da sessão não pode ser vazio" })
+	@IsString({ message: "Token da sessão deve ser uma string" })
+	tokenSession: string;
 }

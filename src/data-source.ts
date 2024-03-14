@@ -5,6 +5,7 @@ import { Onibus } from "./entity/Onibus";
 import { Linha } from "./entity/Linha";
 import { Passagem } from "./entity/Passagem";
 import { Preco } from "./entity/Preco";
+import { Usuario } from "./entity/Usuario";
 
 export const AppDataSource = new DataSource({
 	type: "postgres",
@@ -15,7 +16,7 @@ export const AppDataSource = new DataSource({
 	database: "postgres",
 	synchronize: true,
 	logging: false,
-	entities: [Passageiro, Onibus, Linha, Passagem, Preco],
+	entities: [Passageiro, Usuario, Onibus, Linha, Passagem, Preco],
 	migrations: [],
 	subscribers: [],
 });

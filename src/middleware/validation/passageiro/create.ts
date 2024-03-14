@@ -8,22 +8,15 @@ export const passageiroCreateValidation = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	const {
-		nome,
-		email,
-		telefone,
-		data_nascimento,
-		cpf,
-	}: Partial<PassageiroDTO> = req.body;
+	const { nome, email, telefone, cpf }: Partial<PassageiroDTO> = req.body;
 
 	const errorsValidation: ValidationError[] = [];
-
+	console.log("aqui no validation");
 	const validatePassageiro = new PassageiroDTO();
 
 	validatePassageiro.nome = nome;
 	validatePassageiro.email = email;
 	validatePassageiro.telefone = telefone;
-	validatePassageiro.data_nascimento = data_nascimento;
 	validatePassageiro.cpf = cpf;
 
 	await validate(validatePassageiro, { skipMissingProperties: true }).then(
