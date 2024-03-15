@@ -1,4 +1,5 @@
 import { AppDataSource } from "../data-source";
+import { Companhia } from "../entity/Companhia";
 import { Preco } from "../entity/Preco";
 import { CustomError } from "../utils/CustomError";
 
@@ -6,7 +7,7 @@ class PrecoService {
 	async createPreco(preco: Partial<Preco>) {
 		const newPreco = new Preco();
 
-		newPreco.companhia = preco.companhia;
+		newPreco.companhia_id = preco.companhia_id;
 		newPreco.coeficiente_gaso = preco.coeficiente_gaso;
 		newPreco.coeficiente_pedagio = preco.coeficiente_pedagio;
 		newPreco.leito_base = preco.leito_base;
@@ -31,12 +32,14 @@ class PrecoService {
 		return saved;
 	}
 
-	async findPreco(companhia: string) {
+	async findPreco(companhia: Companhia) {
 		const precoBase = AppDataSource.getRepository(Preco)
 			.findOne({
-				where: { companhia: companhia },
+				relations: ["companhia"],
+				where: companhia,
 			})
 			.then((response) => {
+				console.log("response na query find preco ", response);
 				if (response === null) {
 					throw new CustomError(
 						404,

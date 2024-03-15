@@ -3,21 +3,22 @@ import { AppDataSource } from "../data-source";
 import { Linha } from "../entity/Linha";
 import LinhaServices from "../services/LinhaService";
 import { CustomError } from "../utils/CustomError";
+import { LinhaDTO } from "../dto/linha-request";
 
 export class LinhaController {
 	async createLinha(req: Request, res: Response, next: NextFunction) {
 		const {
-			companhia,
+			companhia_id,
 			horario,
 			embarque,
 			desembarque,
 			nome,
 			distancia_km,
 			onibus_id,
-		} = req.body;
+		}: LinhaDTO = req.body;
 
 		await LinhaServices.createLinhas({
-			companhia,
+			companhia_id,
 			horario,
 			embarque,
 			desembarque,

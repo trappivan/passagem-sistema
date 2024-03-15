@@ -6,6 +6,7 @@ import {
 	PrimaryGeneratedColumn,
 } from "typeorm";
 import { Linha } from "./Linha";
+import { Companhia } from "./Companhia";
 
 @Entity()
 export class Onibus {
@@ -15,8 +16,8 @@ export class Onibus {
 	@Column({ unique: true })
 	placa: string;
 
-	@Column()
-	companhia: string;
+	@ManyToOne(() => Companhia, (companhia: Companhia) => companhia.onibus)
+	companhia_id: Companhia;
 
 	@Column()
 	assentos_total: number;

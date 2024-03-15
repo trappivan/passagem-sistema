@@ -1,8 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-// import { Usuario } from "../../../dto/passageiro-request";
 import { ValidationError, validate } from "class-validator";
 import { CustomError } from "../../../utils/CustomError";
-import { Usuario } from "../../../entity/Usuario";
 import { Passageiro } from "../../../entity/Passageiro";
 
 export const passageiroGetByIdValidation = async (

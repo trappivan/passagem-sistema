@@ -9,7 +9,7 @@ class OnibusService {
 	async getOnibusById(id: number) {
 		const onibus = await AppDataSource.getRepository(Onibus)
 			.findOne({
-				relations: ["linha_id"],
+				relations: ["linha_id", "companhia_id"],
 				where: { id: id },
 			})
 			.then((response) => {
@@ -40,9 +40,7 @@ class OnibusService {
 	}
 
 	async createOnibus(onibus: Partial<Onibus>) {
-		const newBus = new Onibus();
-
-		const precoBase = await PrecoServices.findPreco(onibus.companhia).then(
+		const precoBase = await PrecoServices.findPreco(onibus.companhia_id).then(
 			(response) => {
 				if (response === null) {
 					const customError = new CustomError(
@@ -59,12 +57,14 @@ class OnibusService {
 			}
 		);
 
+		const newBus = new Onibus();
+
 		newBus.poltronas_valor = precoBase.poltrona_base;
 		newBus.leitos_valor = precoBase.leito_base;
 		newBus.semi_leitos_valor = precoBase.semi_leito_base;
 
 		newBus.placa = onibus.placa;
-		newBus.companhia = onibus.companhia;
+		newBus.companhia_id = onibus.companhia_id;
 		newBus.assentos_total = onibus.assentos_total;
 		newBus.poltronas_disponiveis = onibus.poltronas_disponiveis;
 		newBus.leitos_disponiveis = onibus.leitos_disponiveis;
@@ -79,7 +79,7 @@ class OnibusService {
 			return saved;
 		} catch (error) {
 			if (error instanceof QueryFailedError) {
-				const customError = new CustomError(
+				throw new CustomError(
 					401,
 					"Validation",
 					"Erro de validação ao cadastrar onibus",
@@ -87,7 +87,6 @@ class OnibusService {
 					null,
 					null
 				);
-				throw customError;
 			}
 		}
 	}

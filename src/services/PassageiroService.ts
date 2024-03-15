@@ -2,7 +2,6 @@ import { FindOperator, QueryFailedError } from "typeorm";
 import { AppDataSource } from "../data-source";
 import { Passageiro } from "../entity/Passageiro";
 import { CustomError } from "../utils/CustomError";
-import { Usuario } from "../entity/Usuario";
 
 class PassageiroService {
 	async findPassageiroById(id: number) {

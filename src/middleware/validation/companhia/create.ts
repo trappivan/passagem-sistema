@@ -4,35 +4,26 @@ import { ValidationError, validate } from "class-validator";
 import { ErrorValidation } from "../../../utils/types";
 import { CustomError } from "../../../utils/CustomError";
 import { LinhaDTO } from "../../../dto/linha-request";
+import { Companhia } from "../../../entity/Companhia";
+import { CompanhiaDTO } from "../../../dto/companhia-request";
 
-export const linhaCreateValidation = async (
+export const companhiaCreateValidation = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const {
-		companhia_id,
-		horario,
-		embarque,
-		desembarque,
-		distancia_km,
-		nome,
-		onibus_id,
-	}: Partial<LinhaDTO> = req.body;
+	const { cnpj, endereco, nome, regiao }: Partial<CompanhiaDTO> = req.body;
 
 	const errorsValidation: ValidationError[] = [];
 
-	const validateLinha = new LinhaDTO();
+	const validateCompanhia = new CompanhiaDTO();
 
-	validateLinha.companhia_id = companhia_id;
-	validateLinha.horario = horario;
-	validateLinha.embarque = embarque;
-	validateLinha.desembarque = desembarque;
-	validateLinha.distancia_km = distancia_km;
-	validateLinha.nome = nome;
-	validateLinha.onibus_id = onibus_id;
+	validateCompanhia.cnpj = cnpj;
+	validateCompanhia.endereco = endereco;
+	validateCompanhia.nome = nome;
+	validateCompanhia.regiao = regiao;
 
-	await validate(validateLinha, { skipMissingProperties: true }).then(
+	await validate(validateCompanhia, { skipMissingProperties: true }).then(
 		(errors) => {
 			if (errors.length > 0) {
 				errors.forEach((e) => {
@@ -41,7 +32,7 @@ export const linhaCreateValidation = async (
 				const customError = new CustomError(
 					401,
 					"General",
-					"Erro de validação ao cadastrar passagem",
+					"Erro de validação ao cadastrar companhia",
 					null,
 					null,
 					errorsValidation

@@ -7,7 +7,7 @@ export class BusController {
 	async createBus(req: Request, res: Response, next: NextFunction) {
 		const {
 			placa,
-			companhia,
+			companhia_id,
 			assentos_total,
 			poltronas_disponiveis,
 			leitos_disponiveis,
@@ -17,14 +17,14 @@ export class BusController {
 		await onibusService
 			.createOnibus({
 				placa,
-				companhia,
+				companhia_id,
 				assentos_total,
 				poltronas_disponiveis,
 				leitos_disponiveis,
 				semi_leitos_disponiveis,
 			})
 			.then((onibus) => {
-				return res.status(201).send({ message: "createBus", onibus: onibus });
+				return res.status(201).json({ message: "createBus", onibus: onibus });
 			})
 			.catch((error: CustomError) => {
 				return next(error);

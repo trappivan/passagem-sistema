@@ -11,13 +11,13 @@ import {
 } from "class-validator";
 
 export class LinhaDTO {
-	@IsNotEmpty()
-	@IsInt()
-	id: number;
+	@IsNotEmpty({ message: "Id não pode ser vazio" })
+	@IsInt({ message: "Id deve ser um número inteiro" })
+	id?: number;
 
-	@IsNotEmpty()
-	@IsString()
-	companhia: string;
+	@IsNotEmpty({ message: "Id da companhia não pode ser vazio" })
+	@IsInt({ message: "Id da companhia deve ser um número inteiro" })
+	companhia_id: number;
 
 	@IsNotEmpty()
 	@Matches(/^(?:[01]\d|2[0-3]):[0-5]\d\s*-\s*(?:[01]\d|2[0-3]):[0-5]\d$/, {

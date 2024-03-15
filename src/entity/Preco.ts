@@ -1,9 +1,20 @@
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column,
+	Entity,
+	OneToMany,
+	OneToOne,
+	PrimaryColumn,
+	PrimaryGeneratedColumn,
+} from "typeorm";
+import { Companhia } from "./Companhia";
 
 @Entity()
 export class Preco {
-	@PrimaryColumn("varchar", { nullable: false, length: 100, unique: true })
-	companhia: string;
+	@PrimaryGeneratedColumn()
+	id: number;
+
+	@OneToOne(() => Companhia, (companhia: Companhia) => companhia.preco)
+	companhia_id: Companhia;
 
 	@Column("float", { nullable: false })
 	coeficiente_gaso: number;

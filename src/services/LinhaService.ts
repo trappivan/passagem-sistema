@@ -6,9 +6,9 @@ import { CustomError } from "../utils/CustomError";
 import onibusService from "./OnibusService";
 
 class LinhaService {
-	async createLinhas(linha: Partial<LinhaDTO>) {
+	async createLinhas(linha: LinhaDTO) {
 		const onibus = await onibusService
-			.getOnibusById(linha.onibus_id)
+			.getOnibusById(linha.onibus_id["id"])
 			.then((response) => {
 				if (response === null) {
 					throw new CustomError(
@@ -37,7 +37,7 @@ class LinhaService {
 
 		const newLinha = new Linha();
 
-		newLinha.companhia = linha.companhia;
+		newLinha.companhia_id["id"] = linha.companhia_id;
 		newLinha.horario = linha.horario;
 		newLinha.embarque = linha.embarque;
 		newLinha.desembarque = linha.desembarque;
