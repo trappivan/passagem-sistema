@@ -32,7 +32,7 @@ export class PermissionEnum {
 	static findAllPassagens = "findAllPassagens";
 	static reservarPassagem = "reservarPassagem";
 
-	static admin() {
+	async admin() {
 		return [
 			PermissionEnum.createCompanhia,
 			PermissionEnum.findCompanhiaById,
@@ -55,7 +55,7 @@ export class PermissionEnum {
 			PermissionEnum.findAllPassagens,
 		];
 	}
-	static guest() {
+	async guest() {
 		return [
 			PermissionEnum.reservarPassagem,
 			PermissionEnum.findOnibusById,
@@ -68,7 +68,7 @@ export class PermissionEnum {
 		];
 	}
 
-	static user() {
+	async user() {
 		return [
 			PermissionEnum.createPassagem,
 			PermissionEnum.findPassagemById,
@@ -87,11 +87,11 @@ export class PermissionEnum {
 	async getPermission(role: string) {
 		console.log("role", role);
 		if (role === "admin") {
-			return PermissionEnum.admin();
+			return this.admin();
 		} else if (role === "guest") {
-			return PermissionEnum.guest();
+			return this.guest();
 		} else if (role === "user") {
-			return PermissionEnum.user();
+			return this.user();
 		}
 	}
 }
