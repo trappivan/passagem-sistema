@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CompanhiaDTO } from "../dto/companhia-request";
 import companhiaServices from "../services/CompanhiaService";
+import { CustomError } from "../utils/CustomError";
 
 export class CompanhiaController {
 	async createCompanhia(req: Request, res: Response, next: NextFunction) {
@@ -25,10 +26,19 @@ export class CompanhiaController {
 		await companhiaServices
 			.findCompanhiaById(Number(id))
 			.then((response) => {
+				if (response === null) {
+					throw new CustomError(404, "General", "Companhia não encontrada");
+				}
 				return res.status(200).json(response);
 			})
 			.catch((error) => {
 				return next(error);
 			});
+	}
+
+	async findAllCompany(req: Request, res: Response, next: NextFunction) {
+		const companhias = await companhiaServices.findAllCompany();
+
+		return res.status(200).json(companhias);
 	}
 }

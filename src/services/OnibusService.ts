@@ -4,6 +4,8 @@ import { Onibus } from "../entity/Onibus";
 import PrecoServices from "./PrecoService";
 import { QueryFailedError } from "typeorm";
 import { CustomError } from "../utils/CustomError";
+import companhiaServices from "./CompanhiaService";
+import { OnibusDTO } from "../dto/onibus-request";
 
 class OnibusService {
 	async getOnibusById(id: number) {
@@ -39,11 +41,17 @@ class OnibusService {
 		return allBus;
 	}
 
-	async createOnibus(onibus: Partial<Onibus>) {
-		const precoBase = await PrecoServices.findPreco(onibus.companhia_id).then(
+	async createOnibus(onibus: Partial<OnibusDTO>) {
+		console.log("aa");
+		const companhia = await companhiaServices.findCompanhiaById(
+			onibus.companhia
+		);
+
+		const precoBase = await PrecoServices.findPreco(companhia).then(
 			(response) => {
 				if (response === null) {
-					const customError = new CustomError(
+					console.log("é null");
+					throw new CustomError(
 						404,
 						"General",
 						"Companhia não encontrado",
@@ -51,9 +59,9 @@ class OnibusService {
 						null,
 						null
 					);
-					throw customError;
+				} else {
+					return response;
 				}
-				return response;
 			}
 		);
 
@@ -64,7 +72,7 @@ class OnibusService {
 		newBus.semi_leitos_valor = precoBase.semi_leito_base;
 
 		newBus.placa = onibus.placa;
-		newBus.companhia_id = onibus.companhia_id;
+		newBus.companhia_id = companhia;
 		newBus.assentos_total = onibus.assentos_total;
 		newBus.poltronas_disponiveis = onibus.poltronas_disponiveis;
 		newBus.leitos_disponiveis = onibus.leitos_disponiveis;

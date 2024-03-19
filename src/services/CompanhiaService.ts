@@ -7,23 +7,20 @@ import { Companhia } from "../entity/Companhia";
 export class CompanhiaServices {
 	async createCompanhia(companhia: Partial<CompanhiaDTO>) {
 		// checks if companhia already exists
-		console.log("response get repository");
-		const bomba = await this.findCompanhiaById(companhia.id).then(
-			(response) => {
-				if (response !== null) {
-					throw new CustomError(
-						401,
-						"Unauthorized",
-						"Companhia já cadastrada",
-						null,
-						null,
-						null
-					);
-				}
-				return response;
+		await this.findCompanhiaByName(companhia.nome).then((response) => {
+			if (response !== null) {
+				throw new CustomError(
+					401,
+					"Unauthorized",
+					"Companhia já cadastrada",
+					null,
+					null,
+					null
+				);
 			}
-		);
-		console.log("bomba", bomba);
+			return response;
+		});
+
 		const newCompanhia = new Companhia();
 
 		newCompanhia.cnpj = companhia.cnpj;
@@ -40,7 +37,7 @@ export class CompanhiaServices {
 				401,
 				"General",
 				"Não foi possível salvar a companhia",
-				[error.message],
+				[error.driverError.detail],
 				null,
 				null
 			);
@@ -49,12 +46,40 @@ export class CompanhiaServices {
 		return saved;
 	}
 
+	async findCompanhiaByName(nome: string) {
+		const companhia = await AppDataSource.getRepository(Companhia).findOne({
+			where: { nome: nome },
+		});
+
+		return companhia;
+	}
+
 	async findCompanhiaById(id: number) {
 		const companhia = await AppDataSource.getRepository(Companhia).findOne({
 			where: { id: id },
 		});
-
+		console.log("companhiaa", companhia);
 		return companhia;
+	}
+
+	async findAllCompany() {
+		const companhias = await AppDataSource.getRepository(Companhia)
+			.find()
+			.then((response) => {
+				return response;
+			})
+			.catch((error) => {
+				throw new CustomError(
+					401,
+					"General",
+					"Erro ao buscar todas as companhias",
+					[error.message],
+					null,
+					null
+				);
+			});
+		console.log("companhiaaas", companhias);
+		return companhias;
 	}
 }
 

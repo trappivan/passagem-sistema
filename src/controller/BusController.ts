@@ -2,22 +2,23 @@ import { NextFunction, Request, Response } from "express";
 import { Onibus } from "../entity/Onibus";
 import onibusService from "../services/OnibusService";
 import { CustomError } from "../utils/CustomError";
+import { OnibusDTO } from "../dto/onibus-request";
 
 export class BusController {
 	async createBus(req: Request, res: Response, next: NextFunction) {
 		const {
 			placa,
-			companhia_id,
+			companhia,
 			assentos_total,
 			poltronas_disponiveis,
 			leitos_disponiveis,
 			semi_leitos_disponiveis,
-		}: Partial<Onibus> = req.body;
+		}: Partial<OnibusDTO> = req.body;
 
 		await onibusService
 			.createOnibus({
 				placa,
-				companhia_id,
+				companhia,
 				assentos_total,
 				poltronas_disponiveis,
 				leitos_disponiveis,

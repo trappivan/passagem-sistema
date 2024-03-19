@@ -1,9 +1,9 @@
-import { IsNotEmpty, IsNumber, IsString } from "class-validator";
+import { IsInt, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class PrecoDTO {
 	@IsNotEmpty({ message: "Companhia não pode ser vazio" })
-	@IsString({ message: "Companhia deve ser uma string" })
-	companhia: string;
+	@IsInt({ message: "Companhia deve ser um número" })
+	companhia: number;
 
 	@IsNotEmpty({ message: "Coeficiente gasolina não pode ser vazio" })
 	@IsNumber(

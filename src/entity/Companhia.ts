@@ -24,7 +24,7 @@ export class Companhia {
 	@Column("varchar", { length: 100, nullable: true })
 	nome: string;
 
-	@Column("varchar", { length: 14, nullable: true, unique: true, name: "cnpj" })
+	@Column("varchar", { length: 18, nullable: true, unique: true, name: "cnpj" })
 	cnpj: string;
 
 	@Column("varchar", { length: 100, nullable: true })

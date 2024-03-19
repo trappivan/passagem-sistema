@@ -1,4 +1,5 @@
 import { AppDataSource } from "../data-source";
+import { PrecoDTO } from "../dto/preco-request";
 import { Companhia } from "../entity/Companhia";
 import { Preco } from "../entity/Preco";
 import { CustomError } from "../utils/CustomError";
@@ -33,25 +34,9 @@ class PrecoService {
 	}
 
 	async findPreco(companhia: Companhia) {
-		const precoBase = AppDataSource.getRepository(Preco)
-			.findOne({
-				relations: ["companhia"],
-				where: companhia,
-			})
-			.then((response) => {
-				console.log("response na query find preco ", response);
-				if (response === null) {
-					throw new CustomError(
-						404,
-						"General",
-						"Preço não encontrado",
-						null,
-						null,
-						null
-					);
-				}
-				return response;
-			});
+		const precoBase = AppDataSource.getRepository(Preco).findOne({
+			where: { companhia_id: companhia },
+		});
 
 		return precoBase;
 	}

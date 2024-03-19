@@ -11,8 +11,8 @@ export class OnibusDTO {
 	placa: string;
 
 	@IsNotEmpty({ message: "Companhia não pode ser vazio" })
-	@IsString({ message: "Comphanhia deve ser uma string" })
-	companhia: string;
+	@IsInt({ message: "Companhia deve ser um número inteiro" })
+	companhia: number;
 
 	@IsNotEmpty({ message: "Assentos total não pode ser vazio" })
 	@IsInt({ message: "Assentos total deve ser um número inteiro" })
