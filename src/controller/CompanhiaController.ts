@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { CompanhiaDTO } from "../dto/companhia-request";
 import companhiaServices from "../services/CompanhiaService";
 import { CustomError } from "../utils/CustomError";
+import { PermissionEnum } from "../utils/PermissionEnum";
 
 export class CompanhiaController {
 	async createCompanhia(req: Request, res: Response, next: NextFunction) {

@@ -8,18 +8,18 @@ export const routerCompanhia = Router();
 
 routerCompanhia.get(
 	"/:id",
-	companhiaGetOneValidation,
+	[companhiaGetOneValidation, permissionHandler(["admin", "user"])],
 	new CompanhiaController().findCompanyById
 );
 
 routerCompanhia.post(
 	"/create",
-	[companhiaCreateValidation],
+	[companhiaCreateValidation, permissionHandler(["admin"])],
 	new CompanhiaController().createCompanhia
 );
 
 routerCompanhia.get(
 	"/",
-	permissionHandler,
+	permissionHandler(["admin", "user"]),
 	new CompanhiaController().findAllCompany
 );

@@ -1,4 +1,11 @@
+import { CustomError } from "./CustomError";
+
 export class PermissionEnum {
+	role: string;
+
+	constructor(role: string) {
+		this.role = role;
+	}
 	//Companhia
 
 	static createCompanhia = "createCompanhia";
@@ -32,7 +39,7 @@ export class PermissionEnum {
 	static findAllPassagens = "findAllPassagens";
 	static reservarPassagem = "reservarPassagem";
 
-	async admin() {
+	private static admin() {
 		return [
 			PermissionEnum.createCompanhia,
 			PermissionEnum.findCompanhiaById,
@@ -55,7 +62,7 @@ export class PermissionEnum {
 			PermissionEnum.findAllPassagens,
 		];
 	}
-	async guest() {
+	private static guest() {
 		return [
 			PermissionEnum.reservarPassagem,
 			PermissionEnum.findOnibusById,
@@ -68,7 +75,7 @@ export class PermissionEnum {
 		];
 	}
 
-	async user() {
+	private static user() {
 		return [
 			PermissionEnum.createPassagem,
 			PermissionEnum.findPassagemById,
@@ -84,14 +91,16 @@ export class PermissionEnum {
 		];
 	}
 
-	async getPermission(role: string) {
-		console.log("role", role);
-		if (role === "admin") {
-			return this.admin();
-		} else if (role === "guest") {
-			return this.guest();
-		} else if (role === "user") {
-			return this.user();
+	async getPermission() {
+		console.log("roleee ", this.role);
+		if (this.role === "admin") {
+			return PermissionEnum.admin();
+		} else if (this.role === "guest") {
+			return PermissionEnum.guest();
+		} else if (this.role === "user") {
+			return PermissionEnum.user();
+		} else {
+			throw new CustomError(401, "Unauthorized", "User role not found");
 		}
 	}
 }
