@@ -9,11 +9,11 @@ Steps to run this project:
 TODO:
 
 [x] - Handle error with pg documentation
-[ ] - Handle concurrency
-[ ] - Add JWT Token
 [x] - Create middleware to validate data types needed
 [x] - Refactor all the requests to return same object structure
 [ ] - Create tests with jest
+[ ] - Create stress test for the app
+[ ] - Handle reserve cancel
 
 Passagem pagamento_status
 0 = Reservada

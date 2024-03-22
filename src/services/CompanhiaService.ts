@@ -5,6 +5,12 @@ import { CustomError } from "../utils/CustomError";
 import { Companhia } from "../entity/Companhia";
 
 export class CompanhiaServices {
+	private dataSource: DataSource;
+
+	constructor(appDataSource: DataSource) {
+		this.dataSource = appDataSource;
+	}
+
 	async createCompanhia(companhia: Partial<CompanhiaDTO>) {
 		// checks if companhia already exists
 		await this.findCompanhiaByName(companhia.nome).then((response) => {
@@ -63,7 +69,8 @@ export class CompanhiaServices {
 	}
 
 	async findAllCompany() {
-		const companhias = await AppDataSource.getRepository(Companhia)
+		const companhias = await this.dataSource
+			.getRepository(Companhia)
 			.find()
 			.then((response) => {
 				return response;
@@ -83,6 +90,6 @@ export class CompanhiaServices {
 	}
 }
 
-const companhiaServices = new CompanhiaServices();
+const companhiaServices = new CompanhiaServices(AppDataSource);
 
 export default companhiaServices;

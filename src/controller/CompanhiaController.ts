@@ -37,7 +37,7 @@ export class CompanhiaController {
 			});
 	}
 
-	async findAllCompany(req: Request, res: Response, next: NextFunction) {
+	async findAllCompany(res: Response) {
 		const companhias = await companhiaServices.findAllCompany();
 
 		return res.status(200).json(companhias);
