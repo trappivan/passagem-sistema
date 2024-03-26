@@ -38,8 +38,13 @@ export class CompanhiaController {
 	}
 
 	async findAllCompany(res: Response) {
-		const companhias = await companhiaServices.findAllCompany();
-
-		return res.status(200).json(companhias);
+		await companhiaServices
+			.findAllCompany()
+			.then((response) => {
+				return res.status(200).json(response);
+			})
+			.catch((error) => {
+				return res.status(500).json(error);
+			});
 	}
 }

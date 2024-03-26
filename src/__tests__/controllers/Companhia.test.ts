@@ -1,24 +1,41 @@
-import { DataSource } from "typeorm";
+import { DataSource, Repository } from "typeorm";
 import { Companhia } from "../../entity/Companhia";
 import companhiaServices, {
 	CompanhiaServices,
 } from "../../services/CompanhiaService";
 import mockConnection from "../../test/mockConnection";
 import { CompanhiaController } from "../../controller/CompanhiaController";
-import { Response } from "express";
-
-let connection: DataSource;
-
-beforeAll(async () => {
-	connection = await mockConnection.create();
-});
+import { Response, request } from "express";
+import { linhaMock } from "../../utils/mock-data/linha";
+import { companhiaMock } from "../../utils/mock-data/companhia";
 
 describe("Companhia Controller", () => {
-	it("Get all companies", async () => {
-		connection.getRepository(Companhia).find = jest
-			.fn()
-			.mockResolvedValue(["asdasd"]);
-		const companies = await new CompanhiaServices(connection).findAllCompany();
-		expect(companies).toMatchObject(["asdasd"]);
+	let companhiaController: CompanhiaController;
+	let companhiaService: CompanhiaServices;
+
+	beforeEach(() => {
+		companhiaController = new CompanhiaController();
+		companhiaService = companhiaServices;
+	});
+
+	it("find all companies", async () => {
+		const result: Companhia[] = [companhiaMock];
+
+		jest
+			.spyOn(companhiaService, "findAllCompany")
+			.mockImplementation(async () => result);
+		const mockResponse: any = () => {
+			const res: any = {};
+			res.status = jest.fn().mockReturnValue(res);
+			res.json = jest.fn().mockReturnValue(res);
+			return res;
+		};
+		let a = companhiaService.findAllCompany();
+		console.log("aaa", a);
+		// console.log(
+		// 	"companhiaController.findAllCompany(res)",
+		// 	companhiaController.findAllCompany(res)
+		// );
+		expect(await companhiaController.findAllCompany(mockResponse)).toBe(result);
 	});
 });
