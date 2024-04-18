@@ -1,25 +1,30 @@
 import express from "express";
-import { AppDataSource } from "./data-source";
+import dataSource from "./data-source";
 import dotenv from "dotenv";
 import { errorHandler } from "./middleware/errorHandler";
 import routes from "./routes";
 import session from "express-session";
 
 dotenv.config();
-AppDataSource.initialize()
-	.then(async () => {
-		console.log("Database connected", AppDataSource.isInitialized);
-	})
-	.catch((error) => console.log(error));
 
-export const app = express();
+export const main = async () => {
+	try {
+		await dataSource.AppDataSource.initialize();
 
-app.use(express.json());
+		const app = express();
 
-app.use(routes);
+		app.use(express.json());
 
-app.use(errorHandler);
+		app.use(routes);
 
-app.listen(process.env.PORT, () => {
-	console.log("Server running on port 3000");
-});
+		app.use(errorHandler);
+
+		app.listen(process.env.PORT, () => {
+			console.log("Server running on port 3000");
+		});
+	} catch (error) {
+		console.error("Error on database connection", error);
+	}
+};
+
+main();

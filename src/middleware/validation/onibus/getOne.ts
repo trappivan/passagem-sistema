@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { PassagemDTO } from "../../../dto/passagem-request";
+import { PassagemDTO } from "../../../dto/passagemDTO";
 import { ValidationError, validate } from "class-validator";
 import { ErrorValidation } from "../../../utils/types";
 import { CustomError } from "../../../utils/CustomError";
-import { OnibusDTO } from "../../../dto/onibus-request";
+import { OnibusDTO } from "../../../dto/onibusDTO";
 
 export const onibusGetOneValidation = async (
 	req: Request,

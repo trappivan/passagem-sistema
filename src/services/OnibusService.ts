@@ -1,15 +1,15 @@
 import { on } from "events";
-import { AppDataSource } from "../data-source";
+import dataSource from "../data-source";
 import { Onibus } from "../entity/Onibus";
 import PrecoServices from "./PrecoService";
 import { QueryFailedError } from "typeorm";
 import { CustomError } from "../utils/CustomError";
 import companhiaServices from "./CompanhiaService";
-import { OnibusDTO } from "../dto/onibus-request";
+import { OnibusDTO } from "../dto/onibusDTO";
 
 class OnibusService {
 	async getOnibusById(id: number) {
-		const onibus = await AppDataSource.getRepository(Onibus)
+		const onibus = await dataSource.AppDataSource.getRepository(Onibus)
 			.findOne({
 				relations: ["linha_id", "companhia_id"],
 				where: { id: id },
@@ -32,7 +32,7 @@ class OnibusService {
 	}
 
 	async getAllBus() {
-		const allBus = await AppDataSource.getRepository(Onibus).find({
+		const allBus = await dataSource.AppDataSource.getRepository(Onibus).find({
 			relations: {
 				linha_id: true,
 			},
@@ -82,7 +82,9 @@ class OnibusService {
 		newBus.semi_leitos_total = onibus.semi_leitos_disponiveis.length;
 
 		try {
-			const saved = await AppDataSource.getRepository(Onibus).save(newBus);
+			const saved = await dataSource.AppDataSource.getRepository(Onibus).save(
+				newBus
+			);
 			console.log("saved", saved);
 			return saved;
 		} catch (error) {

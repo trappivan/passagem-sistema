@@ -1,6 +1,6 @@
 import { QueryFailedError } from "typeorm";
-import { AppDataSource } from "../data-source";
-import { LinhaDTO } from "../dto/linha-request";
+import dataSource from "../data-source";
+import { LinhaDTO } from "../dto/linhaDTO";
 import { Linha } from "../entity/Linha";
 import { CustomError } from "../utils/CustomError";
 import onibusService from "./OnibusService";
@@ -47,7 +47,9 @@ class LinhaService {
 
 		let saved: Linha;
 		try {
-			saved = await AppDataSource.getRepository(Linha).save(newLinha);
+			saved = await dataSource.AppDataSource.getRepository(Linha).save(
+				newLinha
+			);
 		} catch (error) {
 			console.log(error);
 			if (error instanceof QueryFailedError) {
@@ -65,7 +67,7 @@ class LinhaService {
 	}
 
 	async getLinhaById(id: number) {
-		const linha = await AppDataSource.getRepository(Linha)
+		const linha = await dataSource.AppDataSource.getRepository(Linha)
 			.findOne({
 				where: { id: id },
 			})
@@ -86,7 +88,7 @@ class LinhaService {
 	}
 
 	async getLinhas() {
-		const linhas = await AppDataSource.getRepository(Linha).find({
+		const linhas = await dataSource.AppDataSource.getRepository(Linha).find({
 			relations: {
 				onibus_id: true,
 				passagem: true,

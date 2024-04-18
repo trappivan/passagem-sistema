@@ -1,11 +1,11 @@
 import { FindOperator, QueryFailedError } from "typeorm";
-import { AppDataSource } from "../data-source";
+import dataSource from "../data-source";
 import { Passageiro } from "../entity/Passageiro";
 import { CustomError } from "../utils/CustomError";
 
 class PassageiroService {
 	async findPassageiroById(id: number) {
-		const passageiro = await AppDataSource.getRepository(Passageiro)
+		const passageiro = await dataSource.AppDataSource.getRepository(Passageiro)
 			.findOneBy({
 				id: id,
 			})
@@ -40,7 +40,9 @@ class PassageiroService {
 		let saved: Passageiro;
 
 		try {
-			saved = await AppDataSource.getRepository(Passageiro).save(newPassageiro);
+			saved = await dataSource.AppDataSource.getRepository(Passageiro).save(
+				newPassageiro
+			);
 		} catch (error) {
 			const customError = new CustomError(
 				401,
@@ -58,7 +60,9 @@ class PassageiroService {
 	}
 
 	async findPassageiros() {
-		const passageiros = await AppDataSource.getRepository(Passageiro).find({
+		const passageiros = await dataSource.AppDataSource.getRepository(
+			Passageiro
+		).find({
 			relations: {
 				passagens: true,
 			},

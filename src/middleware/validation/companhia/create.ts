@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { PassagemDTO } from "../../../dto/passagem-request";
+import { PassagemDTO } from "../../../dto/passagemDTO";
 import { ValidationError, validate } from "class-validator";
 import { ErrorValidation } from "../../../utils/types";
 import { CustomError } from "../../../utils/CustomError";
-import { LinhaDTO } from "../../../dto/linha-request";
+import { LinhaDTO } from "../../../dto/linhaDTO";
 import { Companhia } from "../../../entity/Companhia";
-import { CompanhiaDTO } from "../../../dto/companhia-request";
+import { CompanhiaDTO } from "../../../dto/companhiaDTO";
 
 export const companhiaCreateValidation = async (
 	req: Request,

@@ -6,8 +6,15 @@ import {
 	Length,
 	Matches,
 } from "class-validator";
-
-export class CompanhiaDTO {
+export interface ICompanhia {
+	id: number;
+	companhia_id: number;
+	cnpj: string;
+	endereco: string;
+	nome: string;
+	regiao: string[];
+}
+export class CompanhiaDTO implements ICompanhia {
 	@IsNotEmpty({ message: "ID é obrigatório" })
 	@IsInt({ message: "ID deve ser um número inteiro" })
 	id: number;

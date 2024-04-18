@@ -1,5 +1,5 @@
-import { AppDataSource } from "../data-source";
-import { PrecoDTO } from "../dto/preco-request";
+import dataSource from "../data-source";
+import { PrecoDTO } from "../dto/precoDTO";
 import { Companhia } from "../entity/Companhia";
 import { Preco } from "../entity/Preco";
 import { CustomError } from "../utils/CustomError";
@@ -18,7 +18,9 @@ class PrecoService {
 		let saved: Preco;
 
 		try {
-			saved = await AppDataSource.getRepository(Preco).save(newPreco);
+			saved = await dataSource.AppDataSource.getRepository(Preco).save(
+				newPreco
+			);
 		} catch (error) {
 			throw new CustomError(
 				500,
@@ -34,7 +36,7 @@ class PrecoService {
 	}
 
 	async findPreco(companhia: Companhia) {
-		const precoBase = AppDataSource.getRepository(Preco).findOne({
+		const precoBase = dataSource.AppDataSource.getRepository(Preco).findOne({
 			where: { companhia_id: companhia },
 		});
 

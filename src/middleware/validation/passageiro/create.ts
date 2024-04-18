@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../../../utils/CustomError";
-import { PassageiroDTO } from "../../../dto/passageiro-request";
+import { PassageiroDTO } from "../../../dto/passageiroDTO";
 import { ValidationError, validate } from "class-validator";
 
 export const passageiroCreateValidation = async (

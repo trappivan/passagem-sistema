@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
-import { CompanhiaDTO } from "../dto/companhia-request";
-import { AppDataSource } from "../data-source";
+import { CompanhiaDTO } from "../dto/companhiaDTO";
+import dataSource from "../data-source";
 import { CustomError } from "../utils/CustomError";
 import { Companhia } from "../entity/Companhia";
 
@@ -37,7 +37,9 @@ export class CompanhiaServices {
 		let saved: Companhia;
 
 		try {
-			saved = await AppDataSource.getRepository(Companhia).save(newCompanhia);
+			saved = await dataSource.AppDataSource.getRepository(Companhia).save(
+				newCompanhia
+			);
 		} catch (error) {
 			throw new CustomError(
 				401,
@@ -53,7 +55,9 @@ export class CompanhiaServices {
 	}
 
 	async findCompanhiaByName(nome: string) {
-		const companhia = await AppDataSource.getRepository(Companhia).findOne({
+		const companhia = await dataSource.AppDataSource.getRepository(
+			Companhia
+		).findOne({
 			where: { nome: nome },
 		});
 
@@ -61,7 +65,9 @@ export class CompanhiaServices {
 	}
 
 	async findCompanhiaById(id: number) {
-		const companhia = await AppDataSource.getRepository(Companhia).findOne({
+		const companhia = await dataSource.AppDataSource.getRepository(
+			Companhia
+		).findOne({
 			where: { id: id },
 		});
 		console.log("companhiaa", companhia);
@@ -90,6 +96,6 @@ export class CompanhiaServices {
 	}
 }
 
-const companhiaServices = new CompanhiaServices(AppDataSource);
+const companhiaServices = new CompanhiaServices(dataSource.AppDataSource);
 
 export default companhiaServices;

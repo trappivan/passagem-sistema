@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { CompanhiaDTO } from "../dto/companhia-request";
+import { CompanhiaDTO } from "../dto/companhiaDTO";
 import companhiaServices from "../services/CompanhiaService";
 import { CustomError } from "../utils/CustomError";
 import { PermissionEnum } from "../utils/PermissionEnum";

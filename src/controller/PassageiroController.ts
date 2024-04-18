@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, response } from "express";
 import { Passageiro } from "../entity/Passageiro";
-import { AppDataSource } from "../data-source";
 import PassageiroServices from "../services/PassageiroService";
 import { errorHandler } from "../middleware/errorHandler";
 

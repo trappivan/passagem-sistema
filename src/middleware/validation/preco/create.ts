@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomError } from "../../../utils/CustomError";
 import { ValidationError, validate } from "class-validator";
-import { PrecoDTO } from "../../../dto/preco-request";
+import { PrecoDTO } from "../../../dto/precoDTO";
 
 export const precoCreateValidation = async (
 	req: Request,

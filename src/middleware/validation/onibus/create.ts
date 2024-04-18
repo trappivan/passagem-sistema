@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { ValidationError, validate } from "class-validator";
 import { CustomError } from "../../../utils/CustomError";
-import { OnibusDTO } from "../../../dto/onibus-request";
+import { OnibusDTO } from "../../../dto/onibusDTO";
 
 export const onibusCreateValidation = async (
 	req: Request,

@@ -1,5 +1,5 @@
-import { AppDataSource } from "../data-source";
-import { PassageiroDTO } from "../dto/passageiro-request";
+import dataSource from "../data-source";
+import { PassageiroDTO } from "../dto/passageiroDTO";
 import { Linha } from "../entity/Linha";
 import { Onibus } from "../entity/Onibus";
 import { Passageiro } from "../entity/Passageiro";
@@ -25,7 +25,7 @@ class PassagemService {
 		assento.onibus_id.leitos_disponiveis =
 			assento.onibus_id.leitos_disponiveis.filter((e) => e !== assento_posicao);
 
-		const saved = await AppDataSource.getRepository(Onibus).save(
+		const saved = await dataSource.AppDataSource.getRepository(Onibus).save(
 			assento.onibus_id
 		);
 
@@ -48,7 +48,7 @@ class PassagemService {
 				(e: number) => e !== assento_posicao
 			);
 
-		const saved = await AppDataSource.getRepository(Onibus).save(
+		const saved = await dataSource.AppDataSource.getRepository(Onibus).save(
 			assento.onibus_id
 		);
 
@@ -71,7 +71,7 @@ class PassagemService {
 				(e: number) => e !== assento_posicao
 			);
 
-		const saved = await AppDataSource.getRepository(Onibus).save(
+		const saved = await dataSource.AppDataSource.getRepository(Onibus).save(
 			assento.onibus_id
 		);
 
@@ -116,12 +116,14 @@ class PassagemService {
 			}
 		);
 
-		const assento = await AppDataSource.getRepository(Linha).findOne({
-			relations: ["onibus_id"],
-			where: { id: linha_id },
-			// Adicionar lock para evitar que duas pessoas comprem o mesmo assento
-			// lock: { mode: "pessimistic_write", tables: ["onibus"] },
-		});
+		const assento = await dataSource.AppDataSource.getRepository(Linha).findOne(
+			{
+				relations: ["onibus_id"],
+				where: { id: linha_id },
+				// Adicionar lock para evitar que duas pessoas comprem o mesmo assento
+				// lock: { mode: "pessimistic_write", tables: ["onibus"] },
+			}
+		);
 
 		let resultado;
 
@@ -153,7 +155,7 @@ class PassagemService {
 		let saved: Passagem;
 
 		try {
-			await AppDataSource.getRepository(Passagem).save(newPassagem);
+			await dataSource.AppDataSource.getRepository(Passagem).save(newPassagem);
 		} catch (error) {
 			throw new CustomError(
 				401,
@@ -171,7 +173,7 @@ class PassagemService {
 	async createPassagem(id: number, token: string, passageiro: Passageiro) {
 		const newPassageiro = await PassageiroServices.createPassageiro(passageiro);
 
-		const PassagemToken = await AppDataSource.getRepository(Passagem)
+		const PassagemToken = await dataSource.AppDataSource.getRepository(Passagem)
 			.findOne({
 				where: { tokenSession: token },
 			})
@@ -197,7 +199,7 @@ class PassagemService {
 		let saved;
 
 		try {
-			saved = await AppDataSource.getRepository(Passagem)
+			saved = await dataSource.AppDataSource.getRepository(Passagem)
 				.update(
 					{ id: PassagemToken.id },
 					{
@@ -234,7 +236,9 @@ class PassagemService {
 	}
 
 	async getAll() {
-		const passagens = await AppDataSource.getRepository(Passagem).find({
+		const passagens = await dataSource.AppDataSource.getRepository(
+			Passagem
+		).find({
 			relations: {
 				passageiro: true,
 				linha_id: true,

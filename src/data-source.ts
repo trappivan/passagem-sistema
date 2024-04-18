@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { DataSource } from "typeorm";
+import { DataSource, DataSourceOptions } from "typeorm";
 import { Passageiro } from "./entity/Passageiro";
 import { Onibus } from "./entity/Onibus";
 import { Linha } from "./entity/Linha";
@@ -7,7 +7,7 @@ import { Passagem } from "./entity/Passagem";
 import { Preco } from "./entity/Preco";
 import { Companhia } from "./entity/Companhia";
 
-export const AppDataSource = new DataSource({
+const AppDataSourceConfig: DataSourceOptions = {
 	type: "postgres",
 	host: "localhost",
 	port: 5432,
@@ -19,4 +19,24 @@ export const AppDataSource = new DataSource({
 	entities: [Passageiro, Onibus, Linha, Passagem, Preco, Companhia],
 	migrations: [],
 	subscribers: [],
-});
+};
+
+const TestDataSourceConfig: DataSourceOptions = {
+	type: "postgres",
+	host: "localhost",
+	port: 2345,
+	username: "test",
+	password: "test",
+	database: "test",
+	synchronize: true,
+	logging: false,
+	dropSchema: true,
+	entities: [Passageiro, Onibus, Linha, Passagem, Preco, Companhia],
+	migrations: [],
+	subscribers: [],
+};
+
+const AppDataSource = new DataSource(AppDataSourceConfig);
+const TestDataSource = new DataSource(TestDataSourceConfig);
+
+export default { AppDataSource, TestDataSource };

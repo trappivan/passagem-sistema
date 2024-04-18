@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Linha } from "./Linha";
 import { Passageiro } from "./Passageiro";
-import { PassageiroDTO } from "../dto/passageiro-request";
+import { PassageiroDTO } from "../dto/passageiroDTO";
 
 @Entity()
 export class Passagem {

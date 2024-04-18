@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Onibus } from "../entity/Onibus";
 import onibusService from "../services/OnibusService";
 import { CustomError } from "../utils/CustomError";
-import { OnibusDTO } from "../dto/onibus-request";
+import { OnibusDTO } from "../dto/onibusDTO";
 
 export class BusController {
 	async createBus(req: Request, res: Response, next: NextFunction) {

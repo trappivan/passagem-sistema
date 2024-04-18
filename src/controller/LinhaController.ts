@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response, response } from "express";
-import { AppDataSource } from "../data-source";
 import { Linha } from "../entity/Linha";
 import LinhaServices from "../services/LinhaService";
 import { CustomError } from "../utils/CustomError";
-import { LinhaDTO } from "../dto/linha-request";
+import { LinhaDTO } from "../dto/linhaDTO";
 
 export class LinhaController {
 	async createLinha(req: Request, res: Response, next: NextFunction) {
